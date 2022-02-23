@@ -19,7 +19,6 @@ Linker script and memory map
 LOAD CMakeFiles/bs2_default.dir/compile_time_choice.S.obj
 START GROUP
 LOAD /usr/bin/../lib/gcc/arm-none-eabi/10.2.1/thumb/v6-m/nofp/libgcc.a
-LOAD /usr/bin/../lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp/libg.a
 LOAD /usr/bin/../lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc.a
 END GROUP
 START GROUP
@@ -61,19 +60,3 @@ LOAD linker stubs
                 0x0000000000000000       0x22
  .ARM.attributes
                 0x0000000000000000       0x22 CMakeFiles/bs2_default.dir/compile_time_choice.S.obj
-
-.debug_line     0x0000000000000000      0x185
- .debug_line    0x0000000000000000      0x185 CMakeFiles/bs2_default.dir/compile_time_choice.S.obj
-
-.debug_info     0x0000000000000000       0x26
- .debug_info    0x0000000000000000       0x26 CMakeFiles/bs2_default.dir/compile_time_choice.S.obj
-
-.debug_abbrev   0x0000000000000000       0x14
- .debug_abbrev  0x0000000000000000       0x14 CMakeFiles/bs2_default.dir/compile_time_choice.S.obj
-
-.debug_aranges  0x0000000000000000       0x20
- .debug_aranges
-                0x0000000000000000       0x20 CMakeFiles/bs2_default.dir/compile_time_choice.S.obj
-
-.debug_str      0x0000000000000000       0xa2
- .debug_str     0x0000000000000000       0xa2 CMakeFiles/bs2_default.dir/compile_time_choice.S.obj

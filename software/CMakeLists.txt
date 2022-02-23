@@ -14,6 +14,9 @@ include(pico_sdk_import.cmake)
 
 project(mico C CXX ASM)
 
+# Generate compile_commands.json for lsp
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
 # Initialise the Raspberry Pi Pico SDK
 pico_sdk_init()
 
@@ -24,14 +27,22 @@ add_executable(mico mico.cpp )
 pico_set_program_name(mico "mico")
 pico_set_program_version(mico "0.1")
 
-pico_enable_stdio_uart(mico 1)
-pico_enable_stdio_usb(mico 0)
+pico_enable_stdio_uart(mico 0)
+pico_enable_stdio_usb(mico 1)
 
 # Add the standard library to the build
 target_link_libraries(mico pico_stdlib)
 
+add_subdirectory(libs)
+
+# pio
+pico_generate_pio_header(mico ${CMAKE_CURRENT_LIST_DIR}/quadrature_encoder.pio)
+
+target_link_libraries(mico encoder-pio)
+
 # Add any user requested libraries
 target_link_libraries(mico
+		pico_multicore
         hardware_pio
         hardware_interp
         hardware_timer
@@ -40,4 +51,3 @@ target_link_libraries(mico
         )
 
 pico_add_extra_outputs(mico)
-

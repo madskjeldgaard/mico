@@ -53,10 +53,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/mads/tmp/pico-project-generator/mico
+CMAKE_SOURCE_DIR = /home/mads/code/mcu/mico/software
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/mads/tmp/pico-project-generator/mico/build
+CMAKE_BINARY_DIR = /home/mads/code/mcu/mico/software/build
 
 # Utility rule file for bs2_default_bin.
 
@@ -69,8 +69,8 @@ include pico-sdk/src/rp2_common/boot_stage2/CMakeFiles/bs2_default_bin.dir/progr
 pico-sdk/src/rp2_common/boot_stage2/CMakeFiles/bs2_default_bin: pico-sdk/src/rp2_common/boot_stage2/bs2_default.bin
 
 pico-sdk/src/rp2_common/boot_stage2/bs2_default.bin: pico-sdk/src/rp2_common/boot_stage2/bs2_default.elf
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/mads/tmp/pico-project-generator/mico/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Generating bs2_default.bin"
-	cd /home/mads/tmp/pico-project-generator/mico/build/pico-sdk/src/rp2_common/boot_stage2 && /usr/bin/arm-none-eabi-objcopy -Obinary /home/mads/tmp/pico-project-generator/mico/build/pico-sdk/src/rp2_common/boot_stage2/bs2_default.elf /home/mads/tmp/pico-project-generator/mico/build/pico-sdk/src/rp2_common/boot_stage2/bs2_default.bin
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/mads/code/mcu/mico/software/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Generating bs2_default.bin"
+	cd /home/mads/code/mcu/mico/software/build/pico-sdk/src/rp2_common/boot_stage2 && /usr/bin/arm-none-eabi-objcopy -Obinary /home/mads/code/mcu/mico/software/build/pico-sdk/src/rp2_common/boot_stage2/bs2_default.elf /home/mads/code/mcu/mico/software/build/pico-sdk/src/rp2_common/boot_stage2/bs2_default.bin
 
 bs2_default_bin: pico-sdk/src/rp2_common/boot_stage2/CMakeFiles/bs2_default_bin
 bs2_default_bin: pico-sdk/src/rp2_common/boot_stage2/bs2_default.bin
@@ -82,10 +82,10 @@ pico-sdk/src/rp2_common/boot_stage2/CMakeFiles/bs2_default_bin.dir/build: bs2_de
 .PHONY : pico-sdk/src/rp2_common/boot_stage2/CMakeFiles/bs2_default_bin.dir/build
 
 pico-sdk/src/rp2_common/boot_stage2/CMakeFiles/bs2_default_bin.dir/clean:
-	cd /home/mads/tmp/pico-project-generator/mico/build/pico-sdk/src/rp2_common/boot_stage2 && $(CMAKE_COMMAND) -P CMakeFiles/bs2_default_bin.dir/cmake_clean.cmake
+	cd /home/mads/code/mcu/mico/software/build/pico-sdk/src/rp2_common/boot_stage2 && $(CMAKE_COMMAND) -P CMakeFiles/bs2_default_bin.dir/cmake_clean.cmake
 .PHONY : pico-sdk/src/rp2_common/boot_stage2/CMakeFiles/bs2_default_bin.dir/clean
 
 pico-sdk/src/rp2_common/boot_stage2/CMakeFiles/bs2_default_bin.dir/depend:
-	cd /home/mads/tmp/pico-project-generator/mico/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/mads/tmp/pico-project-generator/mico /usr/share/pico-sdk/src/rp2_common/boot_stage2 /home/mads/tmp/pico-project-generator/mico/build /home/mads/tmp/pico-project-generator/mico/build/pico-sdk/src/rp2_common/boot_stage2 /home/mads/tmp/pico-project-generator/mico/build/pico-sdk/src/rp2_common/boot_stage2/CMakeFiles/bs2_default_bin.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/mads/code/mcu/mico/software/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/mads/code/mcu/mico/software /usr/share/pico-sdk/src/rp2_common/boot_stage2 /home/mads/code/mcu/mico/software/build /home/mads/code/mcu/mico/software/build/pico-sdk/src/rp2_common/boot_stage2 /home/mads/code/mcu/mico/software/build/pico-sdk/src/rp2_common/boot_stage2/CMakeFiles/bs2_default_bin.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : pico-sdk/src/rp2_common/boot_stage2/CMakeFiles/bs2_default_bin.dir/depend
 

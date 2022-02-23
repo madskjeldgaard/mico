@@ -1,13 +1,13 @@
 # Target labels
  ELF2UF2Build
 # Source files and their labels
-/home/mads/tmp/pico-project-generator/mico/build/CMakeFiles/ELF2UF2Build
-/home/mads/tmp/pico-project-generator/mico/build/CMakeFiles/ELF2UF2Build.rule
-/home/mads/tmp/pico-project-generator/mico/build/CMakeFiles/ELF2UF2Build-complete.rule
-/home/mads/tmp/pico-project-generator/mico/build/elf2uf2/src/ELF2UF2Build-stamp/ELF2UF2Build-build.rule
-/home/mads/tmp/pico-project-generator/mico/build/elf2uf2/src/ELF2UF2Build-stamp/ELF2UF2Build-configure.rule
-/home/mads/tmp/pico-project-generator/mico/build/elf2uf2/src/ELF2UF2Build-stamp/ELF2UF2Build-download.rule
-/home/mads/tmp/pico-project-generator/mico/build/elf2uf2/src/ELF2UF2Build-stamp/ELF2UF2Build-install.rule
-/home/mads/tmp/pico-project-generator/mico/build/elf2uf2/src/ELF2UF2Build-stamp/ELF2UF2Build-mkdir.rule
-/home/mads/tmp/pico-project-generator/mico/build/elf2uf2/src/ELF2UF2Build-stamp/ELF2UF2Build-patch.rule
-/home/mads/tmp/pico-project-generator/mico/build/elf2uf2/src/ELF2UF2Build-stamp/ELF2UF2Build-update.rule
+/home/mads/code/mcu/mico/software/build/CMakeFiles/ELF2UF2Build
+/home/mads/code/mcu/mico/software/build/CMakeFiles/ELF2UF2Build.rule
+/home/mads/code/mcu/mico/software/build/CMakeFiles/ELF2UF2Build-complete.rule
+/home/mads/code/mcu/mico/software/build/elf2uf2/src/ELF2UF2Build-stamp/ELF2UF2Build-build.rule
+/home/mads/code/mcu/mico/software/build/elf2uf2/src/ELF2UF2Build-stamp/ELF2UF2Build-configure.rule
+/home/mads/code/mcu/mico/software/build/elf2uf2/src/ELF2UF2Build-stamp/ELF2UF2Build-download.rule
+/home/mads/code/mcu/mico/software/build/elf2uf2/src/ELF2UF2Build-stamp/ELF2UF2Build-install.rule
+/home/mads/code/mcu/mico/software/build/elf2uf2/src/ELF2UF2Build-stamp/ELF2UF2Build-mkdir.rule
+/home/mads/code/mcu/mico/software/build/elf2uf2/src/ELF2UF2Build-stamp/ELF2UF2Build-patch.rule
+/home/mads/code/mcu/mico/software/build/elf2uf2/src/ELF2UF2Build-stamp/ELF2UF2Build-update.rule

@@ -60,7 +60,7 @@ EQUALS = =
 CMAKE_SOURCE_DIR = /usr/share/pico-sdk/tools/elf2uf2
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/mads/tmp/pico-project-generator/mico/build/elf2uf2
+CMAKE_BINARY_DIR = /home/mads/code/mcu/mico/software/build/elf2uf2
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -87,14 +87,14 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	cd /home/mads/tmp/pico-project-generator/mico/build/elf2uf2 && $(CMAKE_COMMAND) -E cmake_progress_start /home/mads/tmp/pico-project-generator/mico/build/elf2uf2/CMakeFiles /home/mads/tmp/pico-project-generator/mico/build/elf2uf2/boot_uf2_headers//CMakeFiles/progress.marks
-	cd /home/mads/tmp/pico-project-generator/mico/build/elf2uf2 && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 boot_uf2_headers/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/mads/tmp/pico-project-generator/mico/build/elf2uf2/CMakeFiles 0
+	cd /home/mads/code/mcu/mico/software/build/elf2uf2 && $(CMAKE_COMMAND) -E cmake_progress_start /home/mads/code/mcu/mico/software/build/elf2uf2/CMakeFiles /home/mads/code/mcu/mico/software/build/elf2uf2/boot_uf2_headers//CMakeFiles/progress.marks
+	cd /home/mads/code/mcu/mico/software/build/elf2uf2 && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 boot_uf2_headers/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/mads/code/mcu/mico/software/build/elf2uf2/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
 clean:
-	cd /home/mads/tmp/pico-project-generator/mico/build/elf2uf2 && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 boot_uf2_headers/clean
+	cd /home/mads/code/mcu/mico/software/build/elf2uf2 && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 boot_uf2_headers/clean
 .PHONY : clean
 
 # The main clean target
@@ -103,17 +103,17 @@ clean/fast: clean
 
 # Prepare targets for installation.
 preinstall: all
-	cd /home/mads/tmp/pico-project-generator/mico/build/elf2uf2 && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 boot_uf2_headers/preinstall
+	cd /home/mads/code/mcu/mico/software/build/elf2uf2 && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 boot_uf2_headers/preinstall
 .PHONY : preinstall
 
 # Prepare targets for installation.
 preinstall/fast:
-	cd /home/mads/tmp/pico-project-generator/mico/build/elf2uf2 && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 boot_uf2_headers/preinstall
+	cd /home/mads/code/mcu/mico/software/build/elf2uf2 && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 boot_uf2_headers/preinstall
 .PHONY : preinstall/fast
 
 # clear depends
 depend:
-	cd /home/mads/tmp/pico-project-generator/mico/build/elf2uf2 && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
+	cd /home/mads/code/mcu/mico/software/build/elf2uf2 && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
 .PHONY : depend
 
 # Help Target
@@ -135,6 +135,6 @@ help:
 # No rule that depends on this can have commands that come from listfiles
 # because they might be regenerated.
 cmake_check_build_system:
-	cd /home/mads/tmp/pico-project-generator/mico/build/elf2uf2 && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
+	cd /home/mads/code/mcu/mico/software/build/elf2uf2 && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
 .PHONY : cmake_check_build_system
 

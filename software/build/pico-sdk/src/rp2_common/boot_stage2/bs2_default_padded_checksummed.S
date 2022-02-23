@@ -1,4 +1,4 @@
-// Padded and checksummed version of: /home/mads/tmp/pico-project-generator/mico/build/pico-sdk/src/rp2_common/boot_stage2/bs2_default.bin
+// Padded and checksummed version of: /home/mads/code/mcu/mico/software/build/pico-sdk/src/rp2_common/boot_stage2/bs2_default.bin
 
 .cpu cortex-m0plus
 .thumb

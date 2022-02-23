@@ -13,6 +13,9 @@ set(CMAKE_MAKEFILE_DEPENDS
   "CMakeFiles/3.22.1/CMakeCXXCompiler.cmake"
   "CMakeFiles/3.22.1/CMakeSystem.cmake"
   "elf2uf2/tmp/ELF2UF2Build-cfgcmd.txt.in"
+  "libs/encoder-pio/pioasm/tmp/PioasmBuild-cfgcmd.txt.in"
+  "../libs/CMakeLists.txt"
+  "../libs/encoder-pio/CMakeLists.txt"
   "../pico_sdk_import.cmake"
   "/usr/share/cmake/Modules/CMakeASMInformation.cmake"
   "/usr/share/cmake/Modules/CMakeCInformation.cmake"
@@ -125,6 +128,7 @@ set(CMAKE_MAKEFILE_DEPENDS
   "/usr/share/pico-sdk/src/rp2_common/tinyusb/CMakeLists.txt"
   "/usr/share/pico-sdk/tools/CMakeLists.txt"
   "/usr/share/pico-sdk/tools/FindELF2UF2.cmake"
+  "/usr/share/pico-sdk/tools/FindPioasm.cmake"
   )
 
 # The corresponding makefile is:
@@ -209,13 +213,19 @@ set(CMAKE_MAKEFILE_PRODUCTS
   "pico-sdk/src/rp2040/hardware_regs/CMakeFiles/CMakeDirectoryInformation.cmake"
   "pico-sdk/src/rp2040/hardware_structs/CMakeFiles/CMakeDirectoryInformation.cmake"
   "pico-sdk/docs/CMakeFiles/CMakeDirectoryInformation.cmake"
+  "libs/CMakeFiles/CMakeDirectoryInformation.cmake"
+  "libs/encoder-pio/pioasm/tmp/PioasmBuild-cfgcmd.txt"
+  "libs/encoder-pio/CMakeFiles/CMakeDirectoryInformation.cmake"
   )
 
 # Dependency information for all targets:
 set(CMAKE_DEPEND_INFO_FILES
   "CMakeFiles/mico.dir/DependInfo.cmake"
+  "CMakeFiles/mico_quadrature_encoder_pio_h.dir/DependInfo.cmake"
   "CMakeFiles/ELF2UF2Build.dir/DependInfo.cmake"
   "pico-sdk/src/rp2_common/boot_stage2/CMakeFiles/bs2_default.dir/DependInfo.cmake"
   "pico-sdk/src/rp2_common/boot_stage2/CMakeFiles/bs2_default_bin.dir/DependInfo.cmake"
   "pico-sdk/src/rp2_common/boot_stage2/CMakeFiles/bs2_default_padded_checksummed_asm.dir/DependInfo.cmake"
+  "libs/encoder-pio/CMakeFiles/PioasmBuild.dir/DependInfo.cmake"
+  "libs/encoder-pio/CMakeFiles/encoder-pio_encoder_pio_h.dir/DependInfo.cmake"
   )

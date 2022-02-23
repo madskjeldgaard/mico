@@ -37,9 +37,9 @@ CMakeFiles/mico.dir/usr/share/pico-sdk/src/rp2_common/hardware_watchdog/watchdog
  /usr/lib/gcc/arm-none-eabi/10.2.1/include/stdint.h \
  /usr/arm-none-eabi/include/stdint.h \
  /usr/arm-none-eabi/include/sys/_intsup.h \
- /home/mads/tmp/pico-project-generator/mico/build/generated/pico_base/pico/version.h \
+ /home/mads/code/mcu/mico/software/build/generated/pico_base/pico/version.h \
  /usr/share/pico-sdk/src/common/pico_base/include/pico/config.h \
- /home/mads/tmp/pico-project-generator/mico/build/generated/pico_base/pico/config_autogen.h \
+ /home/mads/code/mcu/mico/software/build/generated/pico_base/pico/config_autogen.h \
  /usr/share/pico-sdk/src/boards/include/boards/pico.h \
  /usr/share/pico-sdk/src/rp2_common/cmsis/include/cmsis/rename_exceptions.h \
  /usr/share/pico-sdk/src/rp2_common/pico_platform/include/pico/platform.h \

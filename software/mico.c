@@ -1,12 +1,13 @@
-#include <stdio.h>
 #include "pico/stdlib.h"
+#include <stdio.h>
 
+int main() {
+  stdio_init_all();
 
-int main()
-{
-    stdio_init_all();
+  while (1) {
 
-    puts("Hello, world!");
+    printf("Hello, world!");
+  }
 
-    return 0;
+  return 0;
 }

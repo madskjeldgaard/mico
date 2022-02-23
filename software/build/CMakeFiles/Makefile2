@@ -54,10 +54,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/mads/tmp/pico-project-generator/mico
+CMAKE_SOURCE_DIR = /home/mads/code/mcu/mico/software
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/mads/tmp/pico-project-generator/mico/build
+CMAKE_BINARY_DIR = /home/mads/code/mcu/mico/software/build
 
 #=============================================================================
 # Directory level rules for the build root directory
@@ -66,17 +66,52 @@ CMAKE_BINARY_DIR = /home/mads/tmp/pico-project-generator/mico/build
 all: CMakeFiles/mico.dir/all
 all: CMakeFiles/ELF2UF2Build.dir/all
 all: pico-sdk/all
+all: libs/all
 .PHONY : all
 
 # The main recursive "preinstall" target.
 preinstall: pico-sdk/preinstall
+preinstall: libs/preinstall
 .PHONY : preinstall
 
 # The main recursive "clean" target.
 clean: CMakeFiles/mico.dir/clean
+clean: CMakeFiles/mico_quadrature_encoder_pio_h.dir/clean
 clean: CMakeFiles/ELF2UF2Build.dir/clean
 clean: pico-sdk/clean
+clean: libs/clean
 .PHONY : clean
+
+#=============================================================================
+# Directory level rules for directory libs
+
+# Recursive "all" directory target.
+libs/all: libs/encoder-pio/all
+.PHONY : libs/all
+
+# Recursive "preinstall" directory target.
+libs/preinstall: libs/encoder-pio/preinstall
+.PHONY : libs/preinstall
+
+# Recursive "clean" directory target.
+libs/clean: libs/encoder-pio/clean
+.PHONY : libs/clean
+
+#=============================================================================
+# Directory level rules for directory libs/encoder-pio
+
+# Recursive "all" directory target.
+libs/encoder-pio/all: libs/encoder-pio/CMakeFiles/PioasmBuild.dir/all
+.PHONY : libs/encoder-pio/all
+
+# Recursive "preinstall" directory target.
+libs/encoder-pio/preinstall:
+.PHONY : libs/encoder-pio/preinstall
+
+# Recursive "clean" directory target.
+libs/encoder-pio/clean: libs/encoder-pio/CMakeFiles/PioasmBuild.dir/clean
+libs/encoder-pio/clean: libs/encoder-pio/CMakeFiles/encoder-pio_encoder_pio_h.dir/clean
+.PHONY : libs/encoder-pio/clean
 
 #=============================================================================
 # Directory level rules for directory pico-sdk
@@ -1323,18 +1358,20 @@ pico-sdk/tools/clean:
 # Target rules for target CMakeFiles/mico.dir
 
 # All Build rule for target.
+CMakeFiles/mico.dir/all: CMakeFiles/mico_quadrature_encoder_pio_h.dir/all
 CMakeFiles/mico.dir/all: CMakeFiles/ELF2UF2Build.dir/all
 CMakeFiles/mico.dir/all: pico-sdk/src/rp2_common/boot_stage2/CMakeFiles/bs2_default_padded_checksummed_asm.dir/all
+CMakeFiles/mico.dir/all: libs/encoder-pio/CMakeFiles/encoder-pio_encoder_pio_h.dir/all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/mico.dir/build.make CMakeFiles/mico.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/mico.dir/build.make CMakeFiles/mico.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/mads/tmp/pico-project-generator/mico/build/CMakeFiles --progress-num=14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62 "Built target mico"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/mads/code/mcu/mico/software/build/CMakeFiles --progress-num=23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97 "Built target mico"
 .PHONY : CMakeFiles/mico.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/mico.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/mads/tmp/pico-project-generator/mico/build/CMakeFiles 61
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/mads/code/mcu/mico/software/build/CMakeFiles 97
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/mico.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/mads/tmp/pico-project-generator/mico/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/mads/code/mcu/mico/software/build/CMakeFiles 0
 .PHONY : CMakeFiles/mico.dir/rule
 
 # Convenience name for target.
@@ -1347,20 +1384,46 @@ CMakeFiles/mico.dir/clean:
 .PHONY : CMakeFiles/mico.dir/clean
 
 #=============================================================================
+# Target rules for target CMakeFiles/mico_quadrature_encoder_pio_h.dir
+
+# All Build rule for target.
+CMakeFiles/mico_quadrature_encoder_pio_h.dir/all: libs/encoder-pio/CMakeFiles/PioasmBuild.dir/all
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/mico_quadrature_encoder_pio_h.dir/build.make CMakeFiles/mico_quadrature_encoder_pio_h.dir/depend
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/mico_quadrature_encoder_pio_h.dir/build.make CMakeFiles/mico_quadrature_encoder_pio_h.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/mads/code/mcu/mico/software/build/CMakeFiles --progress-num=98 "Built target mico_quadrature_encoder_pio_h"
+.PHONY : CMakeFiles/mico_quadrature_encoder_pio_h.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/mico_quadrature_encoder_pio_h.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/mads/code/mcu/mico/software/build/CMakeFiles 9
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/mico_quadrature_encoder_pio_h.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/mads/code/mcu/mico/software/build/CMakeFiles 0
+.PHONY : CMakeFiles/mico_quadrature_encoder_pio_h.dir/rule
+
+# Convenience name for target.
+mico_quadrature_encoder_pio_h: CMakeFiles/mico_quadrature_encoder_pio_h.dir/rule
+.PHONY : mico_quadrature_encoder_pio_h
+
+# clean rule for target.
+CMakeFiles/mico_quadrature_encoder_pio_h.dir/clean:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/mico_quadrature_encoder_pio_h.dir/build.make CMakeFiles/mico_quadrature_encoder_pio_h.dir/clean
+.PHONY : CMakeFiles/mico_quadrature_encoder_pio_h.dir/clean
+
+#=============================================================================
 # Target rules for target CMakeFiles/ELF2UF2Build.dir
 
 # All Build rule for target.
 CMakeFiles/ELF2UF2Build.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/ELF2UF2Build.dir/build.make CMakeFiles/ELF2UF2Build.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/ELF2UF2Build.dir/build.make CMakeFiles/ELF2UF2Build.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/mads/tmp/pico-project-generator/mico/build/CMakeFiles --progress-num=1,2,3,4,5,6,7,8 "Built target ELF2UF2Build"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/mads/code/mcu/mico/software/build/CMakeFiles --progress-num=1,2,3,4,5,6,7,8 "Built target ELF2UF2Build"
 .PHONY : CMakeFiles/ELF2UF2Build.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/ELF2UF2Build.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/mads/tmp/pico-project-generator/mico/build/CMakeFiles 8
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/mads/code/mcu/mico/software/build/CMakeFiles 8
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/ELF2UF2Build.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/mads/tmp/pico-project-generator/mico/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/mads/code/mcu/mico/software/build/CMakeFiles 0
 .PHONY : CMakeFiles/ELF2UF2Build.dir/rule
 
 # Convenience name for target.
@@ -1379,14 +1442,14 @@ CMakeFiles/ELF2UF2Build.dir/clean:
 pico-sdk/src/rp2_common/boot_stage2/CMakeFiles/bs2_default.dir/all:
 	$(MAKE) $(MAKESILENT) -f pico-sdk/src/rp2_common/boot_stage2/CMakeFiles/bs2_default.dir/build.make pico-sdk/src/rp2_common/boot_stage2/CMakeFiles/bs2_default.dir/depend
 	$(MAKE) $(MAKESILENT) -f pico-sdk/src/rp2_common/boot_stage2/CMakeFiles/bs2_default.dir/build.make pico-sdk/src/rp2_common/boot_stage2/CMakeFiles/bs2_default.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/mads/tmp/pico-project-generator/mico/build/CMakeFiles --progress-num=9,10 "Built target bs2_default"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/mads/code/mcu/mico/software/build/CMakeFiles --progress-num=17,18 "Built target bs2_default"
 .PHONY : pico-sdk/src/rp2_common/boot_stage2/CMakeFiles/bs2_default.dir/all
 
 # Build rule for subdir invocation for target.
 pico-sdk/src/rp2_common/boot_stage2/CMakeFiles/bs2_default.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/mads/tmp/pico-project-generator/mico/build/CMakeFiles 2
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/mads/code/mcu/mico/software/build/CMakeFiles 2
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 pico-sdk/src/rp2_common/boot_stage2/CMakeFiles/bs2_default.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/mads/tmp/pico-project-generator/mico/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/mads/code/mcu/mico/software/build/CMakeFiles 0
 .PHONY : pico-sdk/src/rp2_common/boot_stage2/CMakeFiles/bs2_default.dir/rule
 
 # Convenience name for target.
@@ -1405,14 +1468,14 @@ pico-sdk/src/rp2_common/boot_stage2/CMakeFiles/bs2_default.dir/clean:
 pico-sdk/src/rp2_common/boot_stage2/CMakeFiles/bs2_default_bin.dir/all: pico-sdk/src/rp2_common/boot_stage2/CMakeFiles/bs2_default.dir/all
 	$(MAKE) $(MAKESILENT) -f pico-sdk/src/rp2_common/boot_stage2/CMakeFiles/bs2_default_bin.dir/build.make pico-sdk/src/rp2_common/boot_stage2/CMakeFiles/bs2_default_bin.dir/depend
 	$(MAKE) $(MAKESILENT) -f pico-sdk/src/rp2_common/boot_stage2/CMakeFiles/bs2_default_bin.dir/build.make pico-sdk/src/rp2_common/boot_stage2/CMakeFiles/bs2_default_bin.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/mads/tmp/pico-project-generator/mico/build/CMakeFiles --progress-num=11 "Built target bs2_default_bin"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/mads/code/mcu/mico/software/build/CMakeFiles --progress-num=19 "Built target bs2_default_bin"
 .PHONY : pico-sdk/src/rp2_common/boot_stage2/CMakeFiles/bs2_default_bin.dir/all
 
 # Build rule for subdir invocation for target.
 pico-sdk/src/rp2_common/boot_stage2/CMakeFiles/bs2_default_bin.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/mads/tmp/pico-project-generator/mico/build/CMakeFiles 3
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/mads/code/mcu/mico/software/build/CMakeFiles 3
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 pico-sdk/src/rp2_common/boot_stage2/CMakeFiles/bs2_default_bin.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/mads/tmp/pico-project-generator/mico/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/mads/code/mcu/mico/software/build/CMakeFiles 0
 .PHONY : pico-sdk/src/rp2_common/boot_stage2/CMakeFiles/bs2_default_bin.dir/rule
 
 # Convenience name for target.
@@ -1431,14 +1494,14 @@ pico-sdk/src/rp2_common/boot_stage2/CMakeFiles/bs2_default_bin.dir/clean:
 pico-sdk/src/rp2_common/boot_stage2/CMakeFiles/bs2_default_padded_checksummed_asm.dir/all: pico-sdk/src/rp2_common/boot_stage2/CMakeFiles/bs2_default.dir/all
 	$(MAKE) $(MAKESILENT) -f pico-sdk/src/rp2_common/boot_stage2/CMakeFiles/bs2_default_padded_checksummed_asm.dir/build.make pico-sdk/src/rp2_common/boot_stage2/CMakeFiles/bs2_default_padded_checksummed_asm.dir/depend
 	$(MAKE) $(MAKESILENT) -f pico-sdk/src/rp2_common/boot_stage2/CMakeFiles/bs2_default_padded_checksummed_asm.dir/build.make pico-sdk/src/rp2_common/boot_stage2/CMakeFiles/bs2_default_padded_checksummed_asm.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/mads/tmp/pico-project-generator/mico/build/CMakeFiles --progress-num=12,13 "Built target bs2_default_padded_checksummed_asm"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/mads/code/mcu/mico/software/build/CMakeFiles --progress-num=20,21 "Built target bs2_default_padded_checksummed_asm"
 .PHONY : pico-sdk/src/rp2_common/boot_stage2/CMakeFiles/bs2_default_padded_checksummed_asm.dir/all
 
 # Build rule for subdir invocation for target.
 pico-sdk/src/rp2_common/boot_stage2/CMakeFiles/bs2_default_padded_checksummed_asm.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/mads/tmp/pico-project-generator/mico/build/CMakeFiles 4
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/mads/code/mcu/mico/software/build/CMakeFiles 4
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 pico-sdk/src/rp2_common/boot_stage2/CMakeFiles/bs2_default_padded_checksummed_asm.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/mads/tmp/pico-project-generator/mico/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/mads/code/mcu/mico/software/build/CMakeFiles 0
 .PHONY : pico-sdk/src/rp2_common/boot_stage2/CMakeFiles/bs2_default_padded_checksummed_asm.dir/rule
 
 # Convenience name for target.
@@ -1449,6 +1512,58 @@ bs2_default_padded_checksummed_asm: pico-sdk/src/rp2_common/boot_stage2/CMakeFil
 pico-sdk/src/rp2_common/boot_stage2/CMakeFiles/bs2_default_padded_checksummed_asm.dir/clean:
 	$(MAKE) $(MAKESILENT) -f pico-sdk/src/rp2_common/boot_stage2/CMakeFiles/bs2_default_padded_checksummed_asm.dir/build.make pico-sdk/src/rp2_common/boot_stage2/CMakeFiles/bs2_default_padded_checksummed_asm.dir/clean
 .PHONY : pico-sdk/src/rp2_common/boot_stage2/CMakeFiles/bs2_default_padded_checksummed_asm.dir/clean
+
+#=============================================================================
+# Target rules for target libs/encoder-pio/CMakeFiles/PioasmBuild.dir
+
+# All Build rule for target.
+libs/encoder-pio/CMakeFiles/PioasmBuild.dir/all:
+	$(MAKE) $(MAKESILENT) -f libs/encoder-pio/CMakeFiles/PioasmBuild.dir/build.make libs/encoder-pio/CMakeFiles/PioasmBuild.dir/depend
+	$(MAKE) $(MAKESILENT) -f libs/encoder-pio/CMakeFiles/PioasmBuild.dir/build.make libs/encoder-pio/CMakeFiles/PioasmBuild.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/mads/code/mcu/mico/software/build/CMakeFiles --progress-num=9,10,11,12,13,14,15,16 "Built target PioasmBuild"
+.PHONY : libs/encoder-pio/CMakeFiles/PioasmBuild.dir/all
+
+# Build rule for subdir invocation for target.
+libs/encoder-pio/CMakeFiles/PioasmBuild.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/mads/code/mcu/mico/software/build/CMakeFiles 8
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 libs/encoder-pio/CMakeFiles/PioasmBuild.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/mads/code/mcu/mico/software/build/CMakeFiles 0
+.PHONY : libs/encoder-pio/CMakeFiles/PioasmBuild.dir/rule
+
+# Convenience name for target.
+PioasmBuild: libs/encoder-pio/CMakeFiles/PioasmBuild.dir/rule
+.PHONY : PioasmBuild
+
+# clean rule for target.
+libs/encoder-pio/CMakeFiles/PioasmBuild.dir/clean:
+	$(MAKE) $(MAKESILENT) -f libs/encoder-pio/CMakeFiles/PioasmBuild.dir/build.make libs/encoder-pio/CMakeFiles/PioasmBuild.dir/clean
+.PHONY : libs/encoder-pio/CMakeFiles/PioasmBuild.dir/clean
+
+#=============================================================================
+# Target rules for target libs/encoder-pio/CMakeFiles/encoder-pio_encoder_pio_h.dir
+
+# All Build rule for target.
+libs/encoder-pio/CMakeFiles/encoder-pio_encoder_pio_h.dir/all: libs/encoder-pio/CMakeFiles/PioasmBuild.dir/all
+	$(MAKE) $(MAKESILENT) -f libs/encoder-pio/CMakeFiles/encoder-pio_encoder_pio_h.dir/build.make libs/encoder-pio/CMakeFiles/encoder-pio_encoder_pio_h.dir/depend
+	$(MAKE) $(MAKESILENT) -f libs/encoder-pio/CMakeFiles/encoder-pio_encoder_pio_h.dir/build.make libs/encoder-pio/CMakeFiles/encoder-pio_encoder_pio_h.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/mads/code/mcu/mico/software/build/CMakeFiles --progress-num=22 "Built target encoder-pio_encoder_pio_h"
+.PHONY : libs/encoder-pio/CMakeFiles/encoder-pio_encoder_pio_h.dir/all
+
+# Build rule for subdir invocation for target.
+libs/encoder-pio/CMakeFiles/encoder-pio_encoder_pio_h.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/mads/code/mcu/mico/software/build/CMakeFiles 9
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 libs/encoder-pio/CMakeFiles/encoder-pio_encoder_pio_h.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/mads/code/mcu/mico/software/build/CMakeFiles 0
+.PHONY : libs/encoder-pio/CMakeFiles/encoder-pio_encoder_pio_h.dir/rule
+
+# Convenience name for target.
+encoder-pio_encoder_pio_h: libs/encoder-pio/CMakeFiles/encoder-pio_encoder_pio_h.dir/rule
+.PHONY : encoder-pio_encoder_pio_h
+
+# clean rule for target.
+libs/encoder-pio/CMakeFiles/encoder-pio_encoder_pio_h.dir/clean:
+	$(MAKE) $(MAKESILENT) -f libs/encoder-pio/CMakeFiles/encoder-pio_encoder_pio_h.dir/build.make libs/encoder-pio/CMakeFiles/encoder-pio_encoder_pio_h.dir/clean
+.PHONY : libs/encoder-pio/CMakeFiles/encoder-pio_encoder_pio_h.dir/clean
 
 #=============================================================================
 # Special targets to cleanup operation of make.

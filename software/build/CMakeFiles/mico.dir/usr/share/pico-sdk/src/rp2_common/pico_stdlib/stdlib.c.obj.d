@@ -17,9 +17,9 @@ CMakeFiles/mico.dir/usr/share/pico-sdk/src/rp2_common/pico_stdlib/stdlib.c.obj: 
  /usr/arm-none-eabi/include/sys/_intsup.h \
  /usr/arm-none-eabi/include/sys/_stdint.h \
  /usr/lib/gcc/arm-none-eabi/10.2.1/include/stddef.h \
- /home/mads/tmp/pico-project-generator/mico/build/generated/pico_base/pico/version.h \
+ /home/mads/code/mcu/mico/software/build/generated/pico_base/pico/version.h \
  /usr/share/pico-sdk/src/common/pico_base/include/pico/config.h \
- /home/mads/tmp/pico-project-generator/mico/build/generated/pico_base/pico/config_autogen.h \
+ /home/mads/code/mcu/mico/software/build/generated/pico_base/pico/config_autogen.h \
  /usr/share/pico-sdk/src/boards/include/boards/pico.h \
  /usr/share/pico-sdk/src/rp2_common/cmsis/include/cmsis/rename_exceptions.h \
  /usr/share/pico-sdk/src/rp2_common/pico_platform/include/pico/platform.h \
@@ -44,10 +44,14 @@ CMakeFiles/mico.dir/usr/share/pico-sdk/src/rp2_common/pico_stdlib/stdlib.c.obj: 
  /usr/share/pico-sdk/src/rp2040/hardware_structs/include/hardware/structs/uart.h \
  /usr/share/pico-sdk/src/rp2040/hardware_regs/include/hardware/regs/uart.h \
  /usr/share/pico-sdk/src/rp2040/hardware_regs/include/hardware/regs/dreq.h \
- /usr/share/pico-sdk/src/rp2_common/pico_stdio_uart/include/pico/stdio_uart.h \
+ /usr/share/pico-sdk/src/rp2_common/pico_stdio_usb/include/pico/stdio_usb.h \
  /usr/share/pico-sdk/src/rp2_common/hardware_pll/include/hardware/pll.h \
  /usr/share/pico-sdk/src/rp2040/hardware_structs/include/hardware/structs/pll.h \
  /usr/share/pico-sdk/src/rp2040/hardware_regs/include/hardware/regs/pll.h \
  /usr/share/pico-sdk/src/rp2_common/hardware_clocks/include/hardware/clocks.h \
  /usr/share/pico-sdk/src/rp2040/hardware_structs/include/hardware/structs/clocks.h \
- /usr/share/pico-sdk/src/rp2040/hardware_regs/include/hardware/regs/clocks.h
+ /usr/share/pico-sdk/src/rp2040/hardware_regs/include/hardware/regs/clocks.h \
+ /usr/share/pico-sdk/src/common/pico_binary_info/include/pico/binary_info.h \
+ /usr/share/pico-sdk/src/common/pico_binary_info/include/pico/binary_info/defs.h \
+ /usr/share/pico-sdk/src/common/pico_binary_info/include/pico/binary_info/structure.h \
+ /usr/share/pico-sdk/src/common/pico_binary_info/include/pico/binary_info/code.h
