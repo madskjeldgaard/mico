@@ -16,13 +16,12 @@ using namespace pimoroni;
 #define LED_PIN PICO_DEFAULT_LED_PIN
 
 // Pins are GPIO pin numbers, not physical pins
-// PIO pio = pio0;
 Encoder enc1(pio0, 2, 3);
 Encoder enc2(pio1, 4, 5);
 
 // FIXME: These don't work. NEEDZ MORE PIO
-Encoder enc3(pio1, 6, 7);
-Encoder enc4(pio1, 8, 9);
+Encoder enc4(pio0, 6, 7);
+Encoder enc3(pio1, 8, 9);
 
 // UART defines
 // By default the stdout UART is `uart0`, so we will use the second one
@@ -77,7 +76,7 @@ int main() {
 	printf("count3: %d\n", count3);
 	printf("count4: %d\n", count4);
 
-	sleep_ms(200);
+	sleep_ms(10);
   }
 
   return 0;
