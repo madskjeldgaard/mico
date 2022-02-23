@@ -1,0 +1,5 @@
+- Make non-pio encoder class
+	- Make encoders 3 and 4 work
+- Make usb midi stuff
+	- Make 14 bit midi function
+	- Add build flag to make output clamped or bipolar
