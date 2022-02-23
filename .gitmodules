@@ -1,3 +1,6 @@
 [submodule "KiCad-RP-Pico"]
 	path = KiCad-RP-Pico
 	url = https://github.com/ncarandini/KiCad-RP-Pico
+[submodule "enclosure/Ultimate-Box-Maker"]
+	path = enclosure/Ultimate-Box-Maker
+	url = https://github.com/jbebel/Ultimate-Box-Maker
