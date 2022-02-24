@@ -9,19 +9,19 @@
 #include "pico/stdlib.h"
 #include "hardware/pio.h"
 #include <stdio.h>
-#include "libs/encoder-pio/encoder.hpp"
+#include "libs/encoder-pio/pioencoder.hpp"
 
 using namespace pimoroni;
 
 #define LED_PIN PICO_DEFAULT_LED_PIN
 
 // Pins are GPIO pin numbers, not physical pins
-Encoder enc1(pio0, 2, 3);
-Encoder enc2(pio1, 4, 5);
+PioEncoder enc1(pio0, 2, 3);
+PioEncoder enc2(pio1, 4, 5);
 
 // FIXME: These don't work. NEEDZ MORE PIO
-Encoder enc4(pio0, 6, 7);
-Encoder enc3(pio1, 8, 9);
+PioEncoder enc4(pio0, 6, 7);
+PioEncoder enc3(pio1, 8, 9);
 
 // UART defines
 // By default the stdout UART is `uart0`, so we will use the second one

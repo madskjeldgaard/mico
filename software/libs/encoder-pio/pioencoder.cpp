@@ -1,7 +1,7 @@
 #include <math.h>
 #include <climits>
 #include "hardware/irq.h"
-#include "encoder.hpp"
+#include "pioencoder.hpp"
 #include "encoder.pio.h"
 
 #define LAST_STATE(state)  ((state) & 0b0011)
@@ -12,36 +12,34 @@ namespace pimoroni {
   ////////////////////////////////////////////////////////////////////////////////////////////////////
   // STATICS
   ////////////////////////////////////////////////////////////////////////////////////////////////////
-  Encoder* Encoder::pio_encoders[][NUM_PIO_STATE_MACHINES] = { { nullptr, nullptr, nullptr, nullptr }, { nullptr, nullptr, nullptr, nullptr } };
-  uint8_t Encoder::pio_claimed_sms[] = { 0x0, 0x0 };
+  PioEncoder* PioEncoder::pio_encoders[][NUM_PIO_STATE_MACHINES] = { { nullptr, nullptr, nullptr, nullptr }, { nullptr, nullptr, nullptr, nullptr } };
+  uint8_t PioEncoder::pio_claimed_sms[] = { 0x0, 0x0 };
 
   ////////////////////////////////////////////////////////////////////////////////////////////////////
-  void Encoder::pio0_interrupt_callback() {
+  void PioEncoder::pio0_interrupt_callback() {
     //Go through each of encoders on this PIO to see which triggered this interrupt
     for(uint8_t sm = 0; sm < NUM_PIO_STATE_MACHINES; sm++) {
-      if(pio_encoders[0][sm] != nullptr) { 
-        pio_encoders[0][sm]->check_for_transition(); 
+      if(pio_encoders[0][sm] != nullptr) {
+        pio_encoders[0][sm]->check_for_transition();
       }
     }
   }
 
   ////////////////////////////////////////////////////////////////////////////////////////////////////
-  void Encoder::pio1_interrupt_callback() {
+  void PioEncoder::pio1_interrupt_callback() {
     //Go through each of encoders on this PIO to see which triggered this interrupt
     for(uint8_t sm = 0; sm < NUM_PIO_STATE_MACHINES; sm++) {
-      if(pio_encoders[1][sm] != nullptr) { 
-        pio_encoders[1][sm]->check_for_transition(); 
+      if(pio_encoders[1][sm] != nullptr) {
+        pio_encoders[1][sm]->check_for_transition();
       }
     }
   }
-
-
 
   ////////////////////////////////////////////////////////////////////////////////////////////////////
   // CONSTRUCTORS / DESTRUCTOR
   ////////////////////////////////////////////////////////////////////////////////////////////////////
-  Encoder::Encoder(PIO pio, uint8_t pinA, uint8_t pinB, uint8_t pinC,
-                   float counts_per_revolution, bool count_microsteps, 
+  PioEncoder::PioEncoder(PIO pio, uint8_t pinA, uint8_t pinB, uint8_t pinC,
+                   float counts_per_revolution, bool count_microsteps,
                    uint16_t freq_divider) :
     enc_pio(pio), pinA(pinA), pinB(pinB), pinC(pinC),
     counts_per_revolution(counts_per_revolution), count_microsteps(count_microsteps),
@@ -49,7 +47,7 @@ namespace pimoroni {
   }
 
   ////////////////////////////////////////////////////////////////////////////////////////////////////
-  Encoder::~Encoder() {
+  PioEncoder::~PioEncoder() {
     //Clean up our use of the SM associated with this encoder
     encoder_program_release(enc_pio, enc_sm);
     uint index = pio_get_index(enc_pio);
@@ -62,12 +60,10 @@ namespace pimoroni {
     }
   }
 
-
-
   ////////////////////////////////////////////////////////////////////////////////////////////////////
   // METHODS
   ////////////////////////////////////////////////////////////////////////////////////////////////////
-  bool Encoder::init() {
+  bool PioEncoder::init() {
     bool initialised = false;
 
     //Are the pins we want to use actually valid?
@@ -83,7 +79,7 @@ namespace pimoroni {
       enc_sm = pio_claim_unused_sm(enc_pio, true);
       uint pio_idx = pio_get_index(enc_pio);
 
-      //Is this the first time using an encoder on this PIO?      
+      //Is this the first time using an encoder on this PIO?
       if(pio_claimed_sms[pio_idx] == 0) {
         //Add the program to the PIO memory and enable the appropriate interrupt
         enc_offset = pio_add_program(enc_pio, &encoder_program);
@@ -114,67 +110,67 @@ namespace pimoroni {
   }
 
   ////////////////////////////////////////////////////////////////////////////////////////////////////
-  bool Encoder::get_state_a() const {
+  bool PioEncoder::get_state_a() const {
     return stateA;
   }
 
   ////////////////////////////////////////////////////////////////////////////////////////////////////
-  bool Encoder::get_state_b() const {
+  bool PioEncoder::get_state_b() const {
     return stateB;
   }
 
   ////////////////////////////////////////////////////////////////////////////////////////////////////
-  int32_t Encoder::get_count() const {
+  int32_t PioEncoder::get_count() const {
     return count - count_offset;
   }
 
   ////////////////////////////////////////////////////////////////////////////////////////////////////
-  float Encoder::get_revolutions() const {
+  float PioEncoder::get_revolutions() const {
     return (float)get_count() / counts_per_revolution;
   }
 
   ////////////////////////////////////////////////////////////////////////////////////////////////////
-  float Encoder::get_angle_degrees() const {
+  float PioEncoder::get_angle_degrees() const {
     return get_revolutions() * 360.0f;
   }
 
   ////////////////////////////////////////////////////////////////////////////////////////////////////
-  float Encoder::get_angle_radians() const {
+  float PioEncoder::get_angle_radians() const {
     return get_revolutions() * M_TWOPI;
   }
 
   ////////////////////////////////////////////////////////////////////////////////////////////////////
-  float Encoder::get_frequency() const {
+  float PioEncoder::get_frequency() const {
     return clocks_per_time / (float)time_since;
   }
 
   ////////////////////////////////////////////////////////////////////////////////////////////////////
-  float Encoder::get_revolutions_per_second() const {
+  float PioEncoder::get_revolutions_per_second() const {
     return get_frequency() / counts_per_revolution;
   }
 
   ////////////////////////////////////////////////////////////////////////////////////////////////////
-  float Encoder::get_revolutions_per_minute() const {
+  float PioEncoder::get_revolutions_per_minute() const {
     return get_revolutions_per_second() * 60.0f;
   }
 
   ////////////////////////////////////////////////////////////////////////////////////////////////////
-  float Encoder::get_degrees_per_second() const {
+  float PioEncoder::get_degrees_per_second() const {
     return get_revolutions_per_second() * 360.0f;
   }
 
   ////////////////////////////////////////////////////////////////////////////////////////////////////
-  float Encoder::get_radians_per_second() const {
+  float PioEncoder::get_radians_per_second() const {
     return get_revolutions_per_second() * M_TWOPI;
   }
 
   ////////////////////////////////////////////////////////////////////////////////////////////////////
-  void Encoder::zero_count() {
+  void PioEncoder::zero_count() {
     count_offset = count;
   }
 
   ////////////////////////////////////////////////////////////////////////////////////////////////////
-  Capture Encoder::perform_capture() {
+  Capture PioEncoder::perform_capture() {
     //Capture the current values
 		int32_t captured_count = count;
 		int32_t captured_cumulative_time = cumulative_time;
@@ -184,7 +180,7 @@ namespace pimoroni {
 		int32_t count_change = captured_count - last_captured_count;
 		last_captured_count = captured_count;
 
-    //Calculate the average frequency of state transitions    
+    //Calculate the average frequency of state transitions
     float average_frequency = 0.0f;
 		if(count_change != 0 && captured_cumulative_time != INT_MAX) {
       average_frequency = (clocks_per_time * (float)count_change) / (float)captured_cumulative_time;
@@ -194,7 +190,7 @@ namespace pimoroni {
   }
 
   ////////////////////////////////////////////////////////////////////////////////////////////////////
-  void Encoder::microstep_up(int32_t time) {
+  void PioEncoder::microstep_up(int32_t time) {
     count++;
     time_since = time;
     microstep_time = 0;
@@ -206,7 +202,7 @@ namespace pimoroni {
   }
 
   ////////////////////////////////////////////////////////////////////////////////////////////////////
-  void Encoder::microstep_down(int32_t time) {
+  void PioEncoder::microstep_down(int32_t time) {
     count--;
     time_since = 0 - time;
     microstep_time = 0;
@@ -218,14 +214,14 @@ namespace pimoroni {
   }
 
   ////////////////////////////////////////////////////////////////////////////////////////////////////
-  void Encoder::check_for_transition() {
+  void PioEncoder::check_for_transition() {
     while(enc_pio->ints0 & (PIO_IRQ0_INTS_SM0_RXNEMPTY_BITS << enc_sm)) {
       uint32_t received = pio_sm_get(enc_pio, enc_sm);
 
       // Extract the current and last encoder states from the received value
       stateA = (bool)(received & STATE_A_MASK);
       stateB = (bool)(received & STATE_B_MASK);
-      uint8_t states = (received & STATES_MASK) >> 28;  
+      uint8_t states = (received & STATES_MASK) >> 28;
 
       // Extract the time (in cycles) it has been since the last received
       int32_t time_received = (received & TIME_MASK) + ENC_DEBOUNCE_TIME;
@@ -247,7 +243,7 @@ namespace pimoroni {
           switch(CURR_STATE(states)) {
             // A ____|‾‾‾‾
             // B _________
-            case MICROSTEP_1:   
+            case MICROSTEP_1:
               if(count_microsteps)
                 microstep_up(time_received);
               break;
@@ -256,7 +252,7 @@ namespace pimoroni {
             // B ____|‾‾‾‾
             case MICROSTEP_3:
               if(count_microsteps)
-                microstep_down(time_received);           
+                microstep_down(time_received);
               break;
           }
           break;
@@ -281,7 +277,7 @@ namespace pimoroni {
               break;
           }
           break;
-          
+
         //--------------------------------------------------
         case MICROSTEP_2:
           switch(CURR_STATE(states)) {
@@ -290,7 +286,7 @@ namespace pimoroni {
             case MICROSTEP_3:
               if(count_microsteps)
                 microstep_up(time_received);
-              
+
               last_travel_dir = CLOCKWISE;  //Started turning clockwise
               break;
 
@@ -299,7 +295,7 @@ namespace pimoroni {
             case MICROSTEP_1:
               if(count_microsteps)
                 microstep_down(time_received);
-              
+
               last_travel_dir = COUNTERCLOCK; //Started turning counter-clockwise
               break;
           }
@@ -320,7 +316,7 @@ namespace pimoroni {
             case MICROSTEP_2:
               if(count_microsteps || last_travel_dir == COUNTERCLOCK)
                 microstep_down(time_received);
-              
+
               last_travel_dir = NO_DIR;    //Finished turning counter-clockwise
               break;
           }

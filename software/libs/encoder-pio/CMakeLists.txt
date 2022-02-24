@@ -1,7 +1,7 @@
 add_library(encoder-pio INTERFACE)
 
 target_sources(encoder-pio INTERFACE
-  ${CMAKE_CURRENT_LIST_DIR}/encoder.cpp
+  ${CMAKE_CURRENT_LIST_DIR}/pioencoder.cpp
   ${CMAKE_CURRENT_LIST_DIR}/capture.cpp
 )
 
