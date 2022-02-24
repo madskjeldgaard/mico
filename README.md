@@ -3,6 +3,7 @@
 ## BOM
 
 | Quantity | Part | Mouser Number |
+|---|---|---|
 | 1 | Raspberry Pi Pico rpi2040 | n/a |
 | 8 | 0.01uF capacitor, 0603 | Mouser Number |
 | 16 | 10k resistors, 1%, 0603 | Mouser Number |
