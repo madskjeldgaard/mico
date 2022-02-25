@@ -22,13 +22,13 @@ pico_sdk_init()
 
 # Add executable. Default name is the project name, version 0.1
 
-add_executable(mico mico.cpp )
+add_executable(mico mico.cpp usb_descriptors.c)
 
 pico_set_program_name(mico "mico")
 pico_set_program_version(mico "0.1")
 
-pico_enable_stdio_uart(mico 0)
-pico_enable_stdio_usb(mico 1)
+pico_enable_stdio_uart(mico 1)
+pico_enable_stdio_usb(mico 0)
 
 # Add the standard library to the build
 target_link_libraries(mico pico_stdlib)
@@ -48,6 +48,11 @@ target_link_libraries(mico
         hardware_timer
         hardware_watchdog
         hardware_clocks
+		tinyusb_device
+		tinyusb_board
         )
 
 pico_add_extra_outputs(mico)
+
+# Make files in root dir includeable
+target_include_directories(mico PRIVATE ${CMAKE_CURRENT_LIST_DIR})

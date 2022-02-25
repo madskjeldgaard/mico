@@ -11,6 +11,10 @@
 #include <stdio.h>
 #include "libs/encoder-pio/pioencoder.hpp"
 
+#include "pico/binary_info.h"
+#include "bsp/board.h"
+#include "tusb.h"
+
 using namespace pimoroni;
 
 #define LED_PIN PICO_DEFAULT_LED_PIN
