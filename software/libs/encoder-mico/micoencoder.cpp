@@ -230,124 +230,122 @@ void MicoEncoder::microstep_down(int32_t time) {
 
 // TODO
 void MicoEncoder::check_for_transition() {
-  while (enc_pio->ints0 & (PIO_IRQ0_INTS_SM0_RXNEMPTY_BITS << enc_sm)) {
-    // TODO: How to do this without pio?
-    uint32_t received = pio_sm_get(enc_pio, enc_sm);
+  // TODO: How to do this without pio?
+  // uint32_t received = pio_sm_get(enc_pio, enc_sm);
 
-    // Extract the current and last encoder states from the received value
+  // Extract the current and last encoder states from the received value
 
-    // TODO: How to do this without pio?
-    // stateA = (bool)(received & STATE_A_MASK);
-    stateA = (bool)(gpio_get(pinA));
-    // stateB = (bool)(received & STATE_B_MASK);
-    stateB = (bool)(gpio_get(pinB));
-	// TODO: Is this a correct interpretation?
-    // uint8_t states = (received & STATES_MASK) >> 28;
-    uint8_t states = ((stateA | stateB) & STATES_MASK) >> 28;
+  // TODO: How to do this without pio?
+  // stateA = (bool)(received & STATE_A_MASK);
+  stateA = (bool)(gpio_get(pinA) & STATE_A_MASK);
+  // stateB = (bool)(received & STATE_B_MASK);
+  stateB = (bool)(gpio_get(pinB) & STATE_B_MASK);
+  // TODO: Is this a correct interpretation?
+  // uint8_t states = (received & STATES_MASK) >> 28;
+  uint8_t states = ((stateA | stateB) & STATES_MASK) >> 28;
 
-    // Extract the time (in cycles) it has been since the last received
-	// TODO: Do this without pio. Need to setup timers?
-    // TODO: ENC_DEBOUNCE_TIME not dfined yet
-    int32_t time_received = (received & TIME_MASK) + ENC_DEBOUNCE_TIME;
+  // Extract the time (in cycles) it has been since the last received
+  // TODO: Do this without pio. Need to setup timers?
+  // TODO: ENC_DEBOUNCE_TIME not dfined yet
+  int32_t time_received = (received & TIME_MASK) + ENC_DEBOUNCE_TIME;
 
-    // For rotary encoders, only every fourth transition is cared about, causing
-    // an inaccurate time value To address this we accumulate the times received
-    // and zero it when a transition is counted
-    if (!count_microsteps) {
-      if (time_received + microstep_time <
-          time_received) // Check to avoid integer overflow
-        time_received = INT32_MAX;
-      else
-        time_received += microstep_time;
-      microstep_time = time_received;
-    }
+  // For rotary encoders, only every fourth transition is cared about, causing
+  // an inaccurate time value To address this we accumulate the times received
+  // and zero it when a transition is counted
+  if (!count_microsteps) {
+	if (time_received + microstep_time <
+	  time_received) // Check to avoid integer overflow
+	  time_received = INT32_MAX;
+	else
+	  time_received += microstep_time;
+	microstep_time = time_received;
+  }
 
-    // Determine what transition occurred
-    switch (LAST_STATE(states)) {
-    //--------------------------------------------------
-    case MICROSTEP_0:
-      switch (CURR_STATE(states)) {
-      // A ____|‾‾‾‾
-      // B _________
-      case MICROSTEP_1:
-        if (count_microsteps)
-          microstep_up(time_received);
-        break;
+  // Determine what transition occurred
+  switch (LAST_STATE(states)) {
+	//--------------------------------------------------
+	case MICROSTEP_0:
+	  switch (CURR_STATE(states)) {
+		// A ____|‾‾‾‾
+		// B _________
+		case MICROSTEP_1:
+		  if (count_microsteps)
+			microstep_up(time_received);
+		  break;
 
-      // A _________
-      // B ____|‾‾‾‾
-      case MICROSTEP_3:
-        if (count_microsteps)
-          microstep_down(time_received);
-        break;
-      }
-      break;
+		// A _________
+		// B ____|‾‾‾‾
+		case MICROSTEP_3:
+		  if (count_microsteps)
+			microstep_down(time_received);
+		  break;
+	  }
+	  break;
 
-    //--------------------------------------------------
-    case MICROSTEP_1:
-      switch (CURR_STATE(states)) {
-      // A ‾‾‾‾‾‾‾‾‾
-      // B ____|‾‾‾‾
-      case MICROSTEP_2:
-        if (count_microsteps || last_travel_dir == CLOCKWISE)
-          microstep_up(time_received);
+	//--------------------------------------------------
+	case MICROSTEP_1:
+	  switch (CURR_STATE(states)) {
+		// A ‾‾‾‾‾‾‾‾‾
+		// B ____|‾‾‾‾
+		case MICROSTEP_2:
+		  if (count_microsteps || last_travel_dir == CLOCKWISE)
+			microstep_up(time_received);
 
-        last_travel_dir = NO_DIR; // Finished turning clockwise
-        break;
+		  last_travel_dir = NO_DIR; // Finished turning clockwise
+		  break;
 
-      // A ‾‾‾‾|____
-      // B _________
-      case MICROSTEP_0:
-        if (count_microsteps)
-          microstep_down(time_received);
-        break;
-      }
-      break;
+		// A ‾‾‾‾|____
+		// B _________
+		case MICROSTEP_0:
+		  if (count_microsteps)
+			microstep_down(time_received);
+		  break;
+	  }
+	  break;
 
-    //--------------------------------------------------
-    case MICROSTEP_2:
-      switch (CURR_STATE(states)) {
-      // A ‾‾‾‾|____
-      // B ‾‾‾‾‾‾‾‾‾
-      case MICROSTEP_3:
-        if (count_microsteps)
-          microstep_up(time_received);
+	//--------------------------------------------------
+	case MICROSTEP_2:
+	  switch (CURR_STATE(states)) {
+		// A ‾‾‾‾|____
+		// B ‾‾‾‾‾‾‾‾‾
+		case MICROSTEP_3:
+		  if (count_microsteps)
+			microstep_up(time_received);
 
-        last_travel_dir = CLOCKWISE; // Started turning clockwise
-        break;
+		  last_travel_dir = CLOCKWISE; // Started turning clockwise
+		  break;
 
-      // A ‾‾‾‾‾‾‾‾‾
-      // B ‾‾‾‾|____
-      case MICROSTEP_1:
-        if (count_microsteps)
-          microstep_down(time_received);
+		// A ‾‾‾‾‾‾‾‾‾
+		// B ‾‾‾‾|____
+		case MICROSTEP_1:
+		  if (count_microsteps)
+			microstep_down(time_received);
 
-        last_travel_dir = COUNTERCLOCK; // Started turning counter-clockwise
-        break;
-      }
-      break;
+		  last_travel_dir = COUNTERCLOCK; // Started turning counter-clockwise
+		  break;
+	  }
+	  break;
 
-    //--------------------------------------------------
-    case MICROSTEP_3:
-      switch (CURR_STATE(states)) {
-      // A _________
-      // B ‾‾‾‾|____
-      case MICROSTEP_0:
-        if (count_microsteps)
-          microstep_up(time_received);
-        break;
+	//--------------------------------------------------
+	case MICROSTEP_3:
+	  switch (CURR_STATE(states)) {
+		// A _________
+		// B ‾‾‾‾|____
+		case MICROSTEP_0:
+		  if (count_microsteps)
+			microstep_up(time_received);
+		  break;
 
-      // A ____|‾‾‾‾
-      // B ‾‾‾‾‾‾‾‾‾
-      case MICROSTEP_2:
-        if (count_microsteps || last_travel_dir == COUNTERCLOCK)
-          microstep_down(time_received);
+		// A ____|‾‾‾‾
+		// B ‾‾‾‾‾‾‾‾‾
+		case MICROSTEP_2:
+		  if (count_microsteps || last_travel_dir == COUNTERCLOCK)
+			microstep_down(time_received);
 
-        last_travel_dir = NO_DIR; // Finished turning counter-clockwise
-        break;
-      }
-      break;
-    }
+		  last_travel_dir = NO_DIR; // Finished turning counter-clockwise
+		  break;
+	  }
+	  break;
   }
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
