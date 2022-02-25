@@ -10,4 +10,7 @@
 | 4 | Detentless encoders | [652-PEC11R-4015K-N24](https://no.mouser.com/ProductDetail/652-PEC11R-4015K-N24) |
 
 ## Credits
+
+These projects were a big help and inspiration in making this:
+- [pico-example-midi](https://github.com/infovore/pico-example-midi)
 - [encoder-pio](https://github.com/pimoroni/pimoroni-pico) is from the pimoroni-pico library. MIT Licensed.
