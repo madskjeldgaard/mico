@@ -1,4 +1,6 @@
 build
 build/
-.clangd
-.cache
+.clangd/
+.cache/
+software/.cache
+software/build
