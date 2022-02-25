@@ -1,3 +1,5 @@
 .cache
 .cache/
 compile_commands.json
+software/.cache/
+software/build/
