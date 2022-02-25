@@ -54,6 +54,7 @@ inline void setup(){
 
 int main() {
   stdio_init_all();
+  tusb_init();
   setup();
 
   // Set up our UART
@@ -70,6 +71,8 @@ int main() {
   // gpio_pull_up(GPIO);
 
   while (true) {
+	tud_task(); // tinyusb device task
+
 	auto count1 = enc1.get_count();
 	auto count2 = enc2.get_count();
 	auto count3 = enc3.get_count();
@@ -81,6 +84,7 @@ int main() {
 	printf("count4: %d\n", count4);
 
 	sleep_ms(10);
+
   }
 
   return 0;
