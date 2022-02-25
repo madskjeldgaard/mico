@@ -1,7 +1,10 @@
-- Make non-pio encoder class to make enc 3+4 work
+- MICOencoder:
+	- Clean up constructor
+	- func: rewrite Check for transition
 	- ENC_DEBOUNCE_TIME needs to be defined
-	- Initialize pin a + b in init/construct like in pio header
+	- needs to be defined ENC_LOOP_CYCLES
 	- Figure out "received" - how to get this without pio?
+		- received is statea, stateb and time received
 	
 	
 - Make usb midi stuff

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "hardware/pio.h"
+#include "hardware/gpio.h"
 #include "capture.hpp"
 
 namespace mico {
@@ -67,25 +68,23 @@ namespace mico {
     volatile Direction last_travel_dir  = NO_DIR;
     volatile int32_t microstep_time     = 0;
     volatile int32_t cumulative_time    = 0;
-
     int32_t count_offset                = 0;
     int32_t last_captured_count         = 0;
 
+	uint this_index;
     //--------------------------------------------------
     // Statics
     //--------------------------------------------------
   public:
-    static MicoEncoder* pio_encoders[NUM_PIOS][NUM_PIO_STATE_MACHINES];
-    static uint8_t pio_claimed_sms[NUM_PIOS];
-    static void pio0_interrupt_callback();
-    static void pio1_interrupt_callback();
+    static MicoEncoder* mico_encoders[NUM_BANK0_GPIOS];
+    static void gpio_callback();
 
     //--------------------------------------------------
     // Constructors/Destructor
     //--------------------------------------------------
   public:
     MicoEncoder() {}
-    MicoEncoder(PIO pio, uint8_t pinA, uint8_t pinB, uint8_t pinC = PIN_UNUSED,
+    MicoEncoder(uint8_t pinA, uint8_t pinB, uint8_t pinC = PIN_UNUSED,
             float counts_per_revolution = DEFAULT_COUNTS_PER_REV, bool count_microsteps = DEFAULT_COUNT_MICROSTEPS,
             uint16_t freq_divider = DEFAULT_FREQ_DIVIDER);
     ~MicoEncoder();
@@ -95,6 +94,8 @@ namespace mico {
     //--------------------------------------------------
   public:
     bool init();
+  uint get_index();
+  void set_index();
 
     bool get_state_a() const;
     bool get_state_b() const;
@@ -102,7 +103,6 @@ namespace mico {
     float get_revolutions() const;
     float get_angle_degrees() const;
     float get_angle_radians() const;
-
     float get_frequency() const;
     float get_revolutions_per_second() const;
     float get_revolutions_per_minute() const;
