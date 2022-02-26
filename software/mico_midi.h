@@ -18,7 +18,7 @@ typedef struct {
 
 constexpr auto maxValue14Bit = 16383;
 
-enum ClipMode { WRAP, CLAMP };
+enum class ClipMode { WRAP, CLAMP };
 
 // Clamp value between 0 and maximum 14 bit value
 inline int clamp14(int inVal) {
