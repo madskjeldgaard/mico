@@ -241,8 +241,6 @@ void MicoEncoder::microstep_down(int32_t time) {
   time_since = 0 - time;
   microstep_time = 0;
 
-  printf("count: %d\n", count);
-
   if (time + cumulative_time < time) // Check to avoid integer overflow
     cumulative_time = INT_MAX;
   else
