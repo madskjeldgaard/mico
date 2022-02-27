@@ -1,6 +1,6 @@
+- Properly clamp values under 0 in the encoder itself.
+- save options in flash: https://github.com/raspberrypi/pico-examples/blob/master/flash/program/flash_program.c
 - MICOencoder:
 	- Add velocity
 	- Encoder seems to start at random point (at least when received in SC?)
 	- Remove all the microstep leftovers from pio-encoder
-- Make usb midi stuff
-	- Add button function to make output clamped or bipolar
