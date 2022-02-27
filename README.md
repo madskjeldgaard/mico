@@ -20,11 +20,19 @@ Mico is a small, cheap (~10 euros total) and super precise 14 bit midi controlle
 | 4 | Detentless encoders | [652-PEC11R-4015K-N24](https://no.mouser.com/ProductDetail/652-PEC11R-4015K-N24) |
 
 
-## Building and uploading the firmware
+## Uploading the firmware
+
+Download the latest firmware from the release and locate the `mico.uf2` file. While plugging your Pico into your computer, press and hold the "BOOTSEL" button. It will show up as a storage device on your computer. Copy `mico.uf2` to this device. Done.
+
+
+## Building and uploading the firmware (optional)
+
+If you want to build the code and mess around with it, it is recommended to use a second Pico flashed with the [picoprobe](https://github.com/raspberrypi/picoprobe) firmware.
 
 ### Using picoprobe
 
 ```bash
+cd software
 mkdir build
 cd build 
 cmake ..

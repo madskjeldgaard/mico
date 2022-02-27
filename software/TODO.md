@@ -4,3 +4,4 @@
 	- Add velocity
 	- Encoder seems to start at random point (at least when received in SC?)
 	- Remove all the microstep leftovers from pio-encoder
+- Move encoder stuff to seperate library
