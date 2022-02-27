@@ -1,12 +1,23 @@
 #include "micoencoder.hpp"
 #include "hardware/irq.h"
+#include "hardware/gpio.h"
+#include <cstdio>
 #include <climits>
 #include <math.h>
+#include "hardware/structs/systick.h"
 
 #define LAST_STATE(state) ((state)&0b0011)
 #define CURR_STATE(state) (((state)&0b1100) >> 2)
 
 namespace mico {
+
+#include "hardware/clocks.h"
+
+#define encoder_wrap_target 0
+#define encoder_wrap 10
+#define ENC_DEBOUNCE_CYCLES 490
+static const uint8_t ENC_LOOP_CYCLES = encoder_wrap - encoder_wrap_target;
+static const uint8_t ENC_DEBOUNCE_TIME = ENC_DEBOUNCE_CYCLES / ENC_LOOP_CYCLES;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // STATICS
@@ -23,7 +34,8 @@ MicoEncoder *MicoEncoder::mico_encoders[NUM_BANK0_GPIOS] = {
 };
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-void MicoEncoder::gpio_callback() {
+// TODO: arguments unused
+void MicoEncoder::gpio_callback(uint gpio, uint32_t events) {
 for (uint8_t encNum = 0; encNum < NUM_BANK0_GPIOS; encNum++) {
     if (mico_encoders[encNum] != nullptr) {
       mico_encoders[encNum]->check_for_transition();
@@ -77,6 +89,13 @@ uint MicoEncoder::get_index(){
 bool MicoEncoder::init() {
   bool initialised = false;
 
+  // TODO: Should this be mentioned in docs?
+  // From: https://forums.raspberrypi.com/viewtopic.php?f=145&t=304201&p=1820770&hilit=Hermannsw+systick#p1822677
+  systick_hw->csr = 0x5;
+  systick_hw->rvr = 0x00FFFFFF;
+  int32_t cycles_now = systick_hw->cvr;
+  cycles_last = cycles_now; // Cache for next iteration
+
   // Are the pins we want to use actually valid?
   if ((pinA < NUM_BANK0_GPIOS) && (pinB < NUM_BANK0_GPIOS)) {
 	set_index();
@@ -91,19 +110,21 @@ bool MicoEncoder::init() {
     // TODO: Not sure about this:
     gpio_pull_up(pinA);
     gpio_pull_up(pinB);
-    // FIXME: the callback here is universal. Will be called for all pins'
+
+    // the callback here is universal. Will be called for all pins'
     // interrupt
     gpio_set_irq_enabled_with_callback(
         pinA, // NOTE: Currently ignored by the SDK since the callback is called
               // for all gpio interrupts on this processor
+		// TODO: Is this correct?
         GPIO_IRQ_EDGE_RISE | GPIO_IRQ_EDGE_FALL, true,
-        gpio_callback // pio0_interrupt_callback
+        &gpio_callback // pio0_interrupt_callback
     );
     gpio_set_irq_enabled_with_callback(
         pinB, // NOTE: Currently ignored by the SDK since the callback is called
               // for all gpio interrupts on this processor
         GPIO_IRQ_EDGE_RISE | GPIO_IRQ_EDGE_FALL, true,
-        gpio_callback // pio0_interrupt_callback
+        &gpio_callback // pio0_interrupt_callback
     );
 
     // If a Pin C was defined, and valid, set it as a GND to pull the other two
@@ -220,6 +241,8 @@ void MicoEncoder::microstep_down(int32_t time) {
   time_since = 0 - time;
   microstep_time = 0;
 
+  printf("count: %d\n", count);
+
   if (time + cumulative_time < time) // Check to avoid integer overflow
     cumulative_time = INT_MAX;
   else
@@ -229,26 +252,30 @@ void MicoEncoder::microstep_down(int32_t time) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 // TODO
+
+// Check for transition and update count if any
 void MicoEncoder::check_for_transition() {
-  // TODO: How to do this without pio?
-  // uint32_t received = pio_sm_get(enc_pio, enc_sm);
 
-  // Extract the current and last encoder states from the received value
-
-  // TODO: How to do this without pio?
   // stateA = (bool)(received & STATE_A_MASK);
-  stateA = (bool)(gpio_get(pinA) & STATE_A_MASK);
+  stateA = (bool)(gpio_get(pinA));
   // stateB = (bool)(received & STATE_B_MASK);
-  stateB = (bool)(gpio_get(pinB) & STATE_B_MASK);
-  // TODO: Is this a correct interpretation?
+  stateB = (bool)(gpio_get(pinB));
+
+  // Inspired by https://github.com/PaulStoffregen/Encoder/blob/master/Encoder.h#L301
+  // uint8_t states = (stateA & stateB);
+  states = states & 3;
+  if(stateA) states |= 4;
+  if(stateB) states |= 8;
+
   // uint8_t states = (received & STATES_MASK) >> 28;
-  uint8_t states = ((stateA | stateB) & STATES_MASK) >> 28;
 
   // Extract the time (in cycles) it has been since the last received
-  // TODO: Do this without pio. Need to setup timers?
-  // TODO: ENC_DEBOUNCE_TIME not dfined yet
-  int32_t time_received = (received & TIME_MASK) + ENC_DEBOUNCE_TIME;
+  int32_t cycles_now = systick_hw->cvr;
+  int32_t time_received = ( cycles_now - cycles_last) + ENC_DEBOUNCE_TIME;
+  cycles_last = time_received; // Cache for next iteration
+  // int32_t time_received = (received & TIME_MASK) + ENC_DEBOUNCE_TIME;
 
+  // TODO: Is this needed?
   // For rotary encoders, only every fourth transition is cared about, causing
   // an inaccurate time value To address this we accumulate the times received
   // and zero it when a transition is counted
@@ -261,92 +288,115 @@ void MicoEncoder::check_for_transition() {
 	microstep_time = time_received;
   }
 
-  // Determine what transition occurred
-  switch (LAST_STATE(states)) {
-	//--------------------------------------------------
-	case MICROSTEP_0:
-	  switch (CURR_STATE(states)) {
-		// A ____|‾‾‾‾
-		// B _________
-		case MICROSTEP_1:
-		  if (count_microsteps)
+  switch (states) {
+	case 1: case 7: case 8: case 14:
+	// 	// A ____|‾‾‾‾
+	// 	// B _________
+		  // if (count_microsteps)
 			microstep_up(time_received);
-		  break;
-
-		// A _________
-		// B ____|‾‾‾‾
-		case MICROSTEP_3:
-		  if (count_microsteps)
-			microstep_down(time_received);
-		  break;
-	  }
-	  break;
-
-	//--------------------------------------------------
-	case MICROSTEP_1:
-	  switch (CURR_STATE(states)) {
-		// A ‾‾‾‾‾‾‾‾‾
-		// B ____|‾‾‾‾
-		case MICROSTEP_2:
-		  if (count_microsteps || last_travel_dir == CLOCKWISE)
-			microstep_up(time_received);
-
-		  last_travel_dir = NO_DIR; // Finished turning clockwise
-		  break;
-
-		// A ‾‾‾‾|____
-		// B _________
-		case MICROSTEP_0:
-		  if (count_microsteps)
-			microstep_down(time_received);
-		  break;
-	  }
-	  break;
-
-	//--------------------------------------------------
-	case MICROSTEP_2:
-	  switch (CURR_STATE(states)) {
-		// A ‾‾‾‾|____
-		// B ‾‾‾‾‾‾‾‾‾
-		case MICROSTEP_3:
-		  if (count_microsteps)
-			microstep_up(time_received);
-
-		  last_travel_dir = CLOCKWISE; // Started turning clockwise
-		  break;
-
-		// A ‾‾‾‾‾‾‾‾‾
-		// B ‾‾‾‾|____
-		case MICROSTEP_1:
-		  if (count_microsteps)
-			microstep_down(time_received);
 
 		  last_travel_dir = COUNTERCLOCK; // Started turning counter-clockwise
 		  break;
-	  }
-	  break;
 
-	//--------------------------------------------------
-	case MICROSTEP_3:
-	  switch (CURR_STATE(states)) {
-		// A _________
-		// B ‾‾‾‾|____
-		case MICROSTEP_0:
-		  if (count_microsteps)
-			microstep_up(time_received);
-		  break;
-
-		// A ____|‾‾‾‾
-		// B ‾‾‾‾‾‾‾‾‾
-		case MICROSTEP_2:
-		  if (count_microsteps || last_travel_dir == COUNTERCLOCK)
+	// 	// A ‾‾‾‾‾‾‾‾‾
+	// 	// B ‾‾‾‾|____
+	case 2: case 4: case 11: case 13:
+		  // if (count_microsteps)
 			microstep_down(time_received);
-
-		  last_travel_dir = NO_DIR; // Finished turning counter-clockwise
+		  last_travel_dir = COUNTERCLOCK; // Started turning counter-clockwise
 		  break;
-	  }
-	  break;
+  	default:
+  		break;
   }
+
+  // Determine what transition occurred
+ //  switch (LAST_STATE(states)) {
+	// //--------------------------------------------------
+	// case MICROSTEP_0:
+	//   switch (CURR_STATE(states)) {
+	// 	// A ____|‾‾‾‾
+	// 	// B _________
+	// 	case MICROSTEP_1:
+	// 	  if (count_microsteps)
+	// 		microstep_up(time_received);
+	// 	  break;
+	//
+	// 	// A _________
+	// 	// B ____|‾‾‾‾
+	// 	case MICROSTEP_3:
+	// 	  if (count_microsteps)
+	// 		microstep_down(time_received);
+	// 	  break;
+	//   }
+	//   break;
+	//
+	// //--------------------------------------------------
+	// case MICROSTEP_1:
+	//   switch (CURR_STATE(states)) {
+	// 	// A ‾‾‾‾‾‾‾‾‾
+	// 	// B ____|‾‾‾‾
+	// 	case MICROSTEP_2:
+	// 	  if (count_microsteps || last_travel_dir == CLOCKWISE)
+	// 		microstep_up(time_received);
+	//
+	// 	  last_travel_dir = NO_DIR; // Finished turning clockwise
+	// 	  break;
+	//
+	// 	// A ‾‾‾‾|____
+	// 	// B _________
+	// 	case MICROSTEP_0:
+	// 	  if (count_microsteps)
+	// 		microstep_down(time_received);
+	// 	  break;
+	//   }
+	//   break;
+	//
+	// //--------------------------------------------------
+	// case MICROSTEP_2:
+	//   switch (CURR_STATE(states)) {
+	// 	// A ‾‾‾‾|____
+	// 	// B ‾‾‾‾‾‾‾‾‾
+	// 	case MICROSTEP_3:
+	// 	  if (count_microsteps)
+	// 		microstep_up(time_received);
+	//
+	// 	  last_travel_dir = CLOCKWISE; // Started turning clockwise
+	// 	  break;
+	//
+	// 	// A ‾‾‾‾‾‾‾‾‾
+	// 	// B ‾‾‾‾|____
+	// 	case MICROSTEP_1:
+	// 	  if (count_microsteps)
+	// 		microstep_down(time_received);
+	//
+	// 	  last_travel_dir = COUNTERCLOCK; // Started turning counter-clockwise
+	// 	  break;
+	//   }
+	//   break;
+	//
+	// //--------------------------------------------------
+	// case MICROSTEP_3:
+	//   switch (CURR_STATE(states)) {
+	// 	// A _________
+	// 	// B ‾‾‾‾|____
+	// 	case MICROSTEP_0:
+	// 	  if (count_microsteps)
+	// 		microstep_up(time_received);
+	// 	  break;
+	//
+	// 	// A ____|‾‾‾‾
+	// 	// B ‾‾‾‾‾‾‾‾‾
+	// 	case MICROSTEP_2:
+	// 	  if (count_microsteps || last_travel_dir == COUNTERCLOCK)
+	// 		microstep_down(time_received);
+	//
+	// 	  last_travel_dir = NO_DIR; // Finished turning counter-clockwise
+	// 	  break;
+	//   }
+	//   break;
+ //  }
+
+  states = states >> 2;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////

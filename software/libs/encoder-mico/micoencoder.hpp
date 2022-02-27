@@ -61,6 +61,8 @@ namespace mico {
     uint enc_sm         = 0;
     uint enc_offset     = 0;
 
+    volatile int32_t states              = 0;
+  int32_t cycles_last = 0;
     volatile bool stateA                = false;
     volatile bool stateB                = false;
     volatile int32_t count              = 0;
@@ -77,7 +79,7 @@ namespace mico {
     //--------------------------------------------------
   public:
     static MicoEncoder* mico_encoders[NUM_BANK0_GPIOS];
-    static void gpio_callback();
+    static void gpio_callback(uint gpio, uint32_t events);
 
     //--------------------------------------------------
     // Constructors/Destructor

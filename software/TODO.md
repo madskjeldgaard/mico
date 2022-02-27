@@ -1,9 +1,5 @@
 - MICOencoder:
-	- Clean up constructor
-	- ENC_DEBOUNCE_TIME needs to be defined
-	- needs to be defined ENC_LOOP_CYCLES
-	- func: rewrite Check for transition
-	
+	- Encoder seems to start at random point (at least when received in SC?)
+	- Remove all the microstep leftovers from pio-encoder
 - Make usb midi stuff
-	- Make 14 bit midi function
-	- Add build flag to make output clamped or bipolar
+	- Add button function to make output clamped or bipolar

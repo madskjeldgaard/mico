@@ -3,6 +3,7 @@
 #include "hardware/pio.h"
 #include "libs/encoder-pio/pioencoder.hpp"
 #include "mico_midi.h"
+#include "micoencoder.hpp"
 #include "pico/stdlib.h"
 #include <stdio.h>
 
@@ -20,9 +21,9 @@ constexpr auto clipmode = ClipMode::WRAP;
 PioEncoder enc1(pio0, 2, 3);
 PioEncoder enc2(pio1, 4, 5);
 
-// FIXME: These don't work. NEEDZ MORE PIO
-PioEncoder enc4(pio0, 6, 7);
-PioEncoder enc3(pio1, 8, 9);
+// FIXME: These don't work.
+MicoEncoder enc4(6, 7);
+MicoEncoder enc3(8, 9);
 
 // UART defines
 // By default the stdout UART is `uart0`, so we will use the second one

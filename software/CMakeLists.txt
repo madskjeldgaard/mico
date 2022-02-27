@@ -35,14 +35,11 @@ target_link_libraries(mico pico_stdlib)
 
 add_subdirectory(libs)
 
-# pio
-# pico_generate_pio_header(mico ${CMAKE_CURRENT_LIST_DIR}/quadrature_encoder.pio)
-
-target_link_libraries(mico encoder-pio)
-
 # Add any user requested libraries
 target_link_libraries(mico
 		pico_multicore
+		encoder-pio
+		encoder-mico
         hardware_pio
         hardware_interp
         hardware_timer
