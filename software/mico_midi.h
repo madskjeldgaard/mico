@@ -1,3 +1,8 @@
+/*
+ * This header wraps some of the tinyusb functions and makes them slightly more
+ * convenient as well as a bunch of convenience functions for 14 bit midi etc.
+ *
+ */
 #pragma once
 
 #ifndef MICOMIDI
@@ -5,7 +10,7 @@
 
 #include "tusb.h"
 #include <stdio.h>
-#include <stdlib.h>     /* abs */
+#include <stdlib.h> /* abs */
 
 namespace mico {
 
@@ -56,8 +61,8 @@ int wrap_or_clamp14(int inVal, ClipMode datamode) {
     return clamp14(inVal);
     break;
   default:
-	return 0;
-	break;
+    return 0;
+    break;
   };
 }
 
@@ -93,8 +98,8 @@ void send_cc14(uint8_t channel, uint16_t value, uint8_t ccnum,
   // Upper 7 bits of signal
   const auto highBitVal = (value >> 7) & 0x7F;
 
-  send_cc(channel, lowBitVal, ccnum, cable_num);
-  send_cc(channel, highBitVal, ccnum + 32, cable_num);
+  send_cc(channel, lowBitVal, ccnum + 32, cable_num);
+  send_cc(channel, highBitVal, ccnum, cable_num);
 }
 
 }; // namespace mico
