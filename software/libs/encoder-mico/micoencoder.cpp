@@ -26,7 +26,7 @@ static const uint8_t ENC_DEBOUNCE_TIME = ENC_DEBOUNCE_CYCLES / ENC_LOOP_CYCLES;
 // This will hold all instances of the encoder. This is because there is only
 // one gpio callback function per core and so this will help sort out which
 // encoder caused the interrupt.
-MicoEncoder *MicoEncoder::mico_encoders[NUM_BANK0_GPIOS] = {
+GPIOEncoder *GPIOEncoder::mico_encoders[NUM_BANK0_GPIOS] = {
     nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr,
     nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr,
     nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr,
@@ -35,7 +35,7 @@ MicoEncoder *MicoEncoder::mico_encoders[NUM_BANK0_GPIOS] = {
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // TODO: arguments unused
-void MicoEncoder::gpio_callback(uint gpio, uint32_t events) {
+void GPIOEncoder::gpio_callback(uint gpio, uint32_t events) {
 for (uint8_t encNum = 0; encNum < NUM_BANK0_GPIOS; encNum++) {
     if (mico_encoders[encNum] != nullptr) {
       mico_encoders[encNum]->check_for_transition();
@@ -48,7 +48,7 @@ for (uint8_t encNum = 0; encNum < NUM_BANK0_GPIOS; encNum++) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 // TODO
-MicoEncoder::MicoEncoder(uint8_t pinA, uint8_t pinB, uint8_t pinC,
+GPIOEncoder::GPIOEncoder(uint8_t pinA, uint8_t pinB, uint8_t pinC,
                          float counts_per_revolution, bool count_microsteps,
                          uint16_t freq_divider)
     : pinA(pinA), pinB(pinB), pinC(pinC),
@@ -59,7 +59,7 @@ MicoEncoder::MicoEncoder(uint8_t pinA, uint8_t pinB, uint8_t pinC,
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-MicoEncoder::~MicoEncoder() {
+GPIOEncoder::~GPIOEncoder() {
   // Clean up our use of the SM associated with this encoder
   const auto index = get_index();
   mico_encoders[index] = nullptr;
@@ -71,7 +71,7 @@ MicoEncoder::~MicoEncoder() {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 // Iterates over the static array containing encoders and sets the member variable this_index to equal the first non-nullptr index in the static encoder array.
-void MicoEncoder::set_index(){
+void GPIOEncoder::set_index(){
 
   for (size_t i = 0; i < NUM_BANK0_GPIOS; i++) {
 	if ( mico_encoders[i] == nullptr) {
@@ -82,11 +82,11 @@ void MicoEncoder::set_index(){
 
 }
 
-uint MicoEncoder::get_index(){
+uint GPIOEncoder::get_index(){
   return this_index;
 }
 
-bool MicoEncoder::init() {
+bool GPIOEncoder::init() {
   bool initialised = false;
 
   // TODO: Should this be mentioned in docs?
@@ -150,59 +150,59 @@ bool MicoEncoder::init() {
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-bool MicoEncoder::get_state_a() const { return stateA; }
+bool GPIOEncoder::get_state_a() const { return stateA; }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-bool MicoEncoder::get_state_b() const { return stateB; }
+bool GPIOEncoder::get_state_b() const { return stateB; }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-int32_t MicoEncoder::get_count() const { return count - count_offset; }
+int32_t GPIOEncoder::get_count() const { return count - count_offset; }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-float MicoEncoder::get_revolutions() const {
+float GPIOEncoder::get_revolutions() const {
   return (float)get_count() / counts_per_revolution;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-float MicoEncoder::get_angle_degrees() const {
+float GPIOEncoder::get_angle_degrees() const {
   return get_revolutions() * 360.0f;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-float MicoEncoder::get_angle_radians() const {
+float GPIOEncoder::get_angle_radians() const {
   return get_revolutions() * M_TWOPI;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-float MicoEncoder::get_frequency() const {
+float GPIOEncoder::get_frequency() const {
   return clocks_per_time / (float)time_since;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-float MicoEncoder::get_revolutions_per_second() const {
+float GPIOEncoder::get_revolutions_per_second() const {
   return get_frequency() / counts_per_revolution;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-float MicoEncoder::get_revolutions_per_minute() const {
+float GPIOEncoder::get_revolutions_per_minute() const {
   return get_revolutions_per_second() * 60.0f;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-float MicoEncoder::get_degrees_per_second() const {
+float GPIOEncoder::get_degrees_per_second() const {
   return get_revolutions_per_second() * 360.0f;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-float MicoEncoder::get_radians_per_second() const {
+float GPIOEncoder::get_radians_per_second() const {
   return get_revolutions_per_second() * M_TWOPI;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-void MicoEncoder::zero_count() { count_offset = count; }
+void GPIOEncoder::zero_count() { count_offset = count; }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-Capture MicoEncoder::perform_capture() {
+Capture GPIOEncoder::perform_capture() {
   // Capture the current values
   int32_t captured_count = count;
   int32_t captured_cumulative_time = cumulative_time;
@@ -224,7 +224,7 @@ Capture MicoEncoder::perform_capture() {
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-void MicoEncoder::microstep_up(int32_t time) {
+void GPIOEncoder::microstep_up(int32_t time) {
   count++;
   time_since = time;
   microstep_time = 0;
@@ -236,7 +236,7 @@ void MicoEncoder::microstep_up(int32_t time) {
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-void MicoEncoder::microstep_down(int32_t time) {
+void GPIOEncoder::microstep_down(int32_t time) {
   count--;
   time_since = 0 - time;
   microstep_time = 0;
@@ -252,7 +252,7 @@ void MicoEncoder::microstep_down(int32_t time) {
 // TODO
 
 // Check for transition and update count if any
-void MicoEncoder::check_for_transition() {
+void GPIOEncoder::check_for_transition() {
 
   // stateA = (bool)(received & STATE_A_MASK);
   stateA = (bool)(gpio_get(pinA));
@@ -301,9 +301,10 @@ void MicoEncoder::check_for_transition() {
 	case 2: case 4: case 11: case 13:
 		  // if (count_microsteps)
 			microstep_down(time_received);
-		  last_travel_dir = COUNTERCLOCK; // Started turning counter-clockwise
+		  last_travel_dir = CLOCKWISE;
 		  break;
   	default:
+		  last_travel_dir = NO_DIR;
   		break;
   }
 

@@ -10,6 +10,8 @@
 #include "pico/binary_info.h"
 #include "pico/stdlib.h"
 #include "tusb.h"
+#include "velocity.hpp"
+#include "voice.hpp"
 #include <stdio.h>
 
 using namespace pimoroni;
@@ -19,12 +21,12 @@ auto clipmode = ClipMode::WRAP;
 #define LED_PIN PICO_DEFAULT_LED_PIN
 
 // Pins are GPIO pin numbers, not physical pins
-PioEncoder enc1(pio0, 2, 3);
-PioEncoder enc2(pio1, 4, 5);
-
-// FIXME: These don't work.
-MicoEncoder enc4(6, 7);
-MicoEncoder enc3(8, 9);
+constexpr int numEncoders = 4;
+constexpr int channel = 1;
+MicoVoice voices[numEncoders]{MicoVoice(2, 3, 1, channel, clipmode),
+                              MicoVoice(4, 5, 2, channel, clipmode),
+                              MicoVoice(6, 7, 3, channel, clipmode),
+                              MicoVoice(8, 9, 4, channel, clipmode)};
 
 // UART defines
 // By default the stdout UART is `uart0`, so we will use the second one
@@ -77,10 +79,10 @@ inline void setup() {
 
   printf("Setting up Mico.\n");
   buttonState = get_bootsel_button();
-  enc1.init();
-  enc2.init();
-  enc3.init();
-  enc4.init();
+
+  for (size_t voiceNum = 0; voiceNum < numEncoders; voiceNum++) {
+    voices[voiceNum].init();
+  }
 
   // Turn on LED
   gpio_init(LED_PIN);
@@ -88,62 +90,10 @@ inline void setup() {
   gpio_put(LED_PIN, 0);
 }
 
-int32_t old_count1{0}, old_count2{0}, old_count3{0}, old_count4{0};
-
 void midi_task(void) {
-  // TODO: This whole function is terribly ugly... oh well.
-  auto chan = 0;
-
-  auto count1 = enc1.get_count();
-  if (count1 != old_count1) {
-    old_count1 = count1;
-
-    auto ccnum = 1;
-    auto val = wrap_or_clamp14(count1, clipmode);
-
-    printf("enc1: ");
-    printf("%d\n", val);
-    send_cc14(chan, val, ccnum);
-  };
-
-  auto count2 = enc2.get_count();
-  if (count2 != old_count2) {
-    old_count2 = count2;
-
-    auto ccnum = 2;
-    auto val = wrap_or_clamp14(count2, clipmode);
-
-    printf("enc2: ");
-    printf("%d\n", val);
-
-    send_cc14(chan, val, ccnum);
-  };
-
-  auto count3 = enc3.get_count();
-  if (count3 != old_count3) {
-    old_count3 = count3;
-
-    auto ccnum = 3;
-    auto val = wrap_or_clamp14(count3, clipmode);
-
-    printf("enc3: ");
-    printf("%d\n", val);
-
-    send_cc14(chan, val, ccnum);
-  };
-
-  auto count4 = enc4.get_count();
-  if (count4 != old_count4) {
-    old_count4 = count4;
-
-    auto ccnum = 4;
-    auto val = wrap_or_clamp14(count4, clipmode);
-
-    printf("enc4: ");
-    printf("%d\n", val);
-
-    send_cc14(chan, val, ccnum);
-  };
+  for (size_t voiceNum = 0; voiceNum < numEncoders; voiceNum++) {
+    voices[voiceNum].update14();
+  }
 }
 
 void button_task() {
