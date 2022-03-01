@@ -12,26 +12,46 @@
 #include "tusb.h"
 #include "velocity.hpp"
 #include "voice.hpp"
+#include "timeralarm.hpp"
 #include <stdio.h>
 
 using namespace pimoroni;
 using namespace mico;
 
 auto clipmode = ClipMode::WRAP;
-#define LED_PIN PICO_DEFAULT_LED_PIN
-
-// Pins are GPIO pin numbers, not physical pins
-constexpr int numEncoders = 4;
 constexpr int channel = 1;
-MicoVoice voices[numEncoders]{MicoVoice(2, 3, 1, channel, clipmode),
-                              MicoVoice(4, 5, 2, channel, clipmode),
-                              MicoVoice(6, 7, 3, channel, clipmode),
-                              MicoVoice(8, 9, 4, channel, clipmode)};
+constexpr int numEncoders = 4;
+#define LED_PIN PICO_DEFAULT_LED_PIN
+bool buttonState;
+
+// A voice is an encoder with midi sender, encoder class, velocity etc.
+MicoVoice voices[numEncoders]{
+  MicoVoice(4, 5, 1, channel, clipmode),
+  MicoVoice(2, 3, 2, channel, clipmode),
+  MicoVoice(8, 9, 3, channel, clipmode),
+  MicoVoice(6, 7, 4, channel, clipmode),
+};
+
+pico_arduino::TimerAlarmRepeating miditimer;
 
 // UART defines
 // By default the stdout UART is `uart0`, so we will use the second one
 #define UART_ID uart0
 #define BAUD_RATE 115200
+
+// Device mounting callbacks
+void tud_mount_cb(void) {
+  printf("Mico mounted\n");
+} // Invoked when device is mounted
+void tud_umount_cb(void) {
+  printf("Mico unmounted\n");
+} // Invoked when device is unmounted
+void tud_suspend_cb(bool remote_wakeup_en) {
+  printf("Mico suspended\n");
+} // Invoked when usb bus is suspended
+void tud_resume_cb(void) {
+  printf("Mico resumed\n");
+} // Invoked when usb bus is resumed
 
 // Picoboard has a button attached to the flash CS pin, which the bootrom
 // checks, and jumps straight to the USB bootcode if the button is pressed
@@ -41,7 +61,6 @@ MicoVoice voices[numEncoders]{MicoVoice(2, 3, 1, channel, clipmode),
 //
 // This doesn't work if others are trying to access flash at the same time,
 // e.g. XIP streamer, or the other core.
-
 bool __no_inline_not_in_flash_func(get_bootsel_button)() {
   const uint CS_PIN_INDEX = 1;
 
@@ -73,23 +92,6 @@ bool __no_inline_not_in_flash_func(get_bootsel_button)() {
   return button_state;
 }
 
-bool buttonState;
-
-inline void setup() {
-
-  printf("Setting up Mico.\n");
-  buttonState = get_bootsel_button();
-
-  for (size_t voiceNum = 0; voiceNum < numEncoders; voiceNum++) {
-    voices[voiceNum].init();
-  }
-
-  // Turn on LED
-  gpio_init(LED_PIN);
-  gpio_set_dir(LED_PIN, GPIO_OUT);
-  gpio_put(LED_PIN, 0);
-}
-
 void midi_task(void) {
   for (size_t voiceNum = 0; voiceNum < numEncoders; voiceNum++) {
     voices[voiceNum].update14();
@@ -119,6 +121,30 @@ void button_task() {
   }
 }
 
+static bool loopTask(repeating_timer_t *rt){
+  tud_task(); // tinyusb device task
+  button_task();
+  midi_task();
+  return true;
+}
+
+inline void setup() {
+
+  printf("Setting up Mico.\n");
+  buttonState = get_bootsel_button();
+
+  for (size_t voiceNum = 0; voiceNum < numEncoders; voiceNum++) {
+    voices[voiceNum].init();
+  }
+
+  // Turn on LED
+  gpio_init(LED_PIN);
+  gpio_set_dir(LED_PIN, GPIO_OUT);
+  gpio_put(LED_PIN, 0);
+
+  printf("Starting midi timer\n");
+  miditimer.start(loopTask, 10);
+}
 int main() {
   printf("Starting Mico main loop.\n");
   // TODO: Is this already done by Pico sdk?
@@ -132,10 +158,7 @@ int main() {
   printf("Starting Mico loop.\n");
 
   while (true) {
-    tud_task(); // tinyusb device task
-    button_task();
-    midi_task();
-    sleep_ms(1);
+    // sleep_ms(1);
   }
 
   return 0;

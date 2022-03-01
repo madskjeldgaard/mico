@@ -1,4 +1,6 @@
 #pragma once
+#ifndef VEL
+#define VEL
 
 namespace mico{
 class Velocity {
@@ -20,6 +22,7 @@ private:
 	t1 = time_us_32();
 	const auto time_delta = t1 - t2;
 	t2 = t1;
+	printf("time delta: %d\n", time_delta);
 	return time_delta;
   }
 
@@ -50,3 +53,5 @@ private:
 };
 
 }
+
+#endif

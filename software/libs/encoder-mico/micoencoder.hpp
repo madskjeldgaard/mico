@@ -1,4 +1,6 @@
 #pragma once
+#ifndef GPIOENCLIB
+#define GPIOENCLIB
 
 #include "capture.hpp"
 #include "hardware/gpio.h"
@@ -124,3 +126,4 @@ private:
 };
 
 } // namespace mico
+#endif

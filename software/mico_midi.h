@@ -13,6 +13,8 @@
 #include <stdlib.h> /* abs */
 
 namespace mico {
+const uint8_t buffer_size = 4;
+uint8_t ccbuffer[buffer_size];
 
 typedef struct {
   uint8_t header;
@@ -75,16 +77,18 @@ int wrap_or_clamp14(int inVal, ClipMode datamode) {
 // https://github.com/arduino-libraries/MIDIUSB/blob/master/examples/MIDIUSB_write/MIDIUSB_write.ino
 void send_cc(uint8_t channel, uint8_t value, uint8_t ccnum,
              uint8_t cable_num = 0) {
-  constexpr auto size = 4;
   // First parameter is the event type (0x0B = control change).
   // Second parameter is the event type, combined with the channel.
   // Third parameter is the control number number (0-119).
   // Fourth parameter is the control value (0-127).
   // TODO: Should this be a struct instead? Would that be more compiler
   // friendly?
-  const uint8_t ccbuffer[size] = {0x0B, static_cast<uint8_t>(0xB0 | channel),
-                                  ccnum, value};
-  tud_midi_stream_write(cable_num, ccbuffer, size);
+  ccbuffer[0] = 0x0B;
+  ccbuffer[1] = static_cast<uint8_t>(0xB0 | channel);
+  ccbuffer[2] = ccnum;
+  ccbuffer[3] = value;
+
+  tud_midi_stream_write(cable_num, ccbuffer, buffer_size);
 }
 
 // Send a 14 bit midi message.

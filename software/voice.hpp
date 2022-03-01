@@ -26,9 +26,9 @@ public:
       val += enc.get_direction() * deltaval;
       val = wrap_or_clamp14(val, clipmode);
 
-      printf("enc on pin %d and %d:", pinA, pinB);
+      printf("Enc on pin %d and %d: ", pinA, pinB);
       printf("%d\n", val);
-
+      printf("Sending to chan %d midicc %d\n\n", chan, ccnum);
       send_cc14(chan, val, ccnum);
 
       old_count = count;
