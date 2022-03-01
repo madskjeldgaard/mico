@@ -34,8 +34,8 @@ private:
 	constexpr auto medium = 50000;
 	constexpr auto lowspeed = 100000;
 
-	if (time_delta < superfast) {
-	  return 150;
+	if (time_delta < superfast && time_delta > 0) {
+	  return 250;
 	} else if (time_delta > ultrafast && time_delta < superfast) {
 	  return 100;
 	} else if (time_delta > superfast && time_delta < fast) {

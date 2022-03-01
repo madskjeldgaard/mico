@@ -1,5 +1,5 @@
 - Setup gpio irq outside of class?
-- Double check that max value is reachable
+- Double check that max value is reachable (it isn't)
 - Properly clamp values under 0 in the encoder itself.
 - save options in flash: https://github.com/raspberrypi/pico-examples/blob/master/flash/program/flash_program.c
 - MICOencoder:
