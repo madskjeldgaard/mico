@@ -27,21 +27,21 @@ private:
   }
 
   uint32_t get_delta_value14(uint32_t time_delta) {
-	constexpr auto ultrafast = 2500;
-	constexpr auto superfast = 5000;
-	constexpr auto fast = 10000;
-	constexpr auto mediumfast = 20000;
+	constexpr auto ultrafast = 5000;
+	constexpr auto superfast = 10000;
+	constexpr auto fast = 20000;
+	constexpr auto mediumfast = 30000;
 	constexpr auto medium = 50000;
 	constexpr auto lowspeed = 100000;
 
 	if (time_delta < superfast && time_delta > 0) {
-	  return 250;
+	  return 1000;
 	} else if (time_delta > ultrafast && time_delta < superfast) {
-	  return 100;
+	  return 500;
 	} else if (time_delta > superfast && time_delta < fast) {
-	  return 50;
+	  return 250;
 	} else if (time_delta > fast && time_delta < mediumfast) {
-	  return 25;
+	  return 50;
 	} else if (time_delta > mediumfast && time_delta < medium) {
 	  return 10;
 	} else if (time_delta > medium && time_delta < lowspeed) {
