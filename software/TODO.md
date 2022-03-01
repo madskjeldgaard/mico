@@ -1,5 +1,4 @@
 - Setup gpio irq outside of class?
-- Double check buffer allocation in midi header is correct
 - Double check that max value is reachable
 - Properly clamp values under 0 in the encoder itself.
 - save options in flash: https://github.com/raspberrypi/pico-examples/blob/master/flash/program/flash_program.c

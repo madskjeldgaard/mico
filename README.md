@@ -46,5 +46,6 @@ openocd -f interface/picoprobe.cfg -f target/rp2040.cfg -s tcl
 ## Credits
 
 These projects were a big help and inspiration in making this:
+- [schatzmann blog](https://www.pschatzmann.ch/home/2021/02/15/usb-midi-on-the-arduino-pico/) and [also this post](https://www.pschatzmann.ch/home/2021/02/19/tinyusb-a-simple-tutorial/)
 - [pico-example-midi](https://github.com/infovore/pico-example-midi)
 - [encoder-pio](https://github.com/pimoroni/pimoroni-pico) is from the pimoroni-pico library. MIT Licensed.
