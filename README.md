@@ -8,6 +8,7 @@ Mico is a small, cheap (~10 euros total) and super precise 14 bit midi controlle
 
 ## Features
 - 4 x detentless (smooth) encoders 
+- Velocity: Slow movements result in microscopic changes (1/16000 of the max range approximately), fast movements in large changes.
 - A variety of "clip modes" (cycle through them by pressing the button):
  	- wrap (when the value goes above max, it wraps back to 0) 
  	- clamp (clip at min and max value)
