@@ -10,8 +10,8 @@
     (31 "B.Cu" signal)
     (32 "B.Adhes" user "B.Adhesive")
     (33 "F.Adhes" user "F.Adhesive")
-    (34 "B.Paste" user)
-    (35 "F.Paste" user)
+    (34 "B.Paste" user "B. Indsæt")
+    (35 "F.Paste" user "F. Indsæt")
     (36 "B.SilkS" user "B.Silkscreen")
     (37 "F.SilkS" user "F.Silkscreen")
     (38 "B.Mask" user)
@@ -21,20 +21,20 @@
     (42 "Eco1.User" user "User.Eco1")
     (43 "Eco2.User" user "User.Eco2")
     (44 "Edge.Cuts" user)
-    (45 "Margin" user)
+    (45 "Margin" user "Margen")
     (46 "B.CrtYd" user "B.Courtyard")
     (47 "F.CrtYd" user "F.Courtyard")
     (48 "B.Fab" user)
     (49 "F.Fab" user)
-    (50 "User.1" user)
-    (51 "User.2" user)
-    (52 "User.3" user)
-    (53 "User.4" user)
-    (54 "User.5" user)
-    (55 "User.6" user)
-    (56 "User.7" user)
-    (57 "User.8" user)
-    (58 "User.9" user)
+    (50 "User.1" user "Bruger.1")
+    (51 "User.2" user "Bruger.2")
+    (52 "User.3" user "Bruger.3")
+    (53 "User.4" user "Bruger.4")
+    (54 "User.5" user "Bruger.5")
+    (55 "User.6" user "Bruger.6")
+    (56 "User.7" user "Bruger.7")
+    (57 "User.8" user "Bruger.8")
+    (58 "User.9" user "Bruger.9")
   )
 
   (setup
@@ -175,10 +175,10 @@
       (net 4 "GND") (pinfunction "C") (pintype "passive") (tstamp 65e99401-6b0f-4f92-a466-1ca3c272f61c))
     (pad "MP" thru_hole rect (at 7.5 8.1 180) (size 3 2.5) (drill oval 2.5 2) (layers *.Cu *.Mask) (tstamp 064abe55-57b0-4ac1-9c72-8bf5912a5cf3))
     (pad "MP" thru_hole rect (at 7.5 -3.1 180) (size 3 2.5) (drill oval 2.5 2) (layers *.Cu *.Mask) (tstamp feaaa4d0-1596-4d0c-b73b-4ca996be35bb))
-    (model "${KICAD6_3DMODEL_DIR}/Rotary_Encoder.3dshapes/RotaryEncoder_Alps_EC12E_Vertical_H20mm.wrl"
-      (offset (xyz 0 0 0))
+    (model "${KIPRJMOD}/Rotary Encoder.step"
+      (offset (xyz 1.4 3.6 0))
       (scale (xyz 1 1 1))
-      (rotate (xyz 0 0 0))
+      (rotate (xyz -90 0 0))
     )
   )
 
@@ -236,10 +236,10 @@
       (net 4 "GND") (pinfunction "C") (pintype "passive") (tstamp c3d52d09-a3df-4a1f-b4d9-6c9229ec3718))
     (pad "MP" thru_hole rect (at 7.5 8.1 180) (size 3 2.5) (drill oval 2.5 2) (layers *.Cu *.Mask) (tstamp 5112e7ff-94f4-4953-9b3b-e89ab066bf44))
     (pad "MP" thru_hole rect (at 7.5 -3.1 180) (size 3 2.5) (drill oval 2.5 2) (layers *.Cu *.Mask) (tstamp 633ef1d6-5811-4caa-b46b-b2c44b20f0ff))
-    (model "${KICAD6_3DMODEL_DIR}/Rotary_Encoder.3dshapes/RotaryEncoder_Alps_EC12E_Vertical_H20mm.wrl"
-      (offset (xyz 0 0 0))
+    (model "${KIPRJMOD}/Rotary Encoder.step"
+      (offset (xyz 1.4 3.6 0))
       (scale (xyz 1 1 1))
-      (rotate (xyz 0 0 0))
+      (rotate (xyz -90 0 0))
     )
   )
 
@@ -297,10 +297,10 @@
       (net 4 "GND") (pinfunction "C") (pintype "passive") (tstamp 6a30c802-8cc9-40ef-a454-dc69fc466dc3))
     (pad "MP" thru_hole rect (at 7.5 8.1 180) (size 3 2.5) (drill oval 2.5 2) (layers *.Cu *.Mask) (tstamp 8e79823e-4332-4e10-8228-ec68b8b05a31))
     (pad "MP" thru_hole rect (at 7.5 -3.1 180) (size 3 2.5) (drill oval 2.5 2) (layers *.Cu *.Mask) (tstamp d111cf52-884c-43b5-97af-3858ea037080))
-    (model "${KICAD6_3DMODEL_DIR}/Rotary_Encoder.3dshapes/RotaryEncoder_Alps_EC12E_Vertical_H20mm.wrl"
-      (offset (xyz 0 0 0))
+    (model "${KIPRJMOD}/Rotary Encoder.step"
+      (offset (xyz 1.4 3.6 0))
       (scale (xyz 1 1 1))
-      (rotate (xyz 0 0 0))
+      (rotate (xyz -90 0 0))
     )
   )
 
@@ -358,10 +358,10 @@
       (net 4 "GND") (pinfunction "C") (pintype "passive") (tstamp eec9adee-0ca3-4f4a-bc2a-d385e11c22f3))
     (pad "MP" thru_hole rect (at 7.5 8.1 180) (size 3 2.5) (drill oval 2.5 2) (layers *.Cu *.Mask) (tstamp 5e131de0-59dd-4487-8337-de0dce828791))
     (pad "MP" thru_hole rect (at 7.5 -3.1 180) (size 3 2.5) (drill oval 2.5 2) (layers *.Cu *.Mask) (tstamp a944a0a0-302a-485c-ac01-78d811b92b30))
-    (model "${KICAD6_3DMODEL_DIR}/Rotary_Encoder.3dshapes/RotaryEncoder_Alps_EC12E_Vertical_H20mm.wrl"
-      (offset (xyz 0 0 0))
+    (model "${KIPRJMOD}/Rotary Encoder.step"
+      (offset (xyz 1.4 3.6 0))
       (scale (xyz 1 1 1))
-      (rotate (xyz 0 0 0))
+      (rotate (xyz -90 0 0))
     )
   )
 
@@ -1529,7 +1529,7 @@
     (pad "43" smd rect locked (at 2.54 -23.9 90) (size 3.5 1.7) (drill (offset -0.9 0)) (layers "B.Cu" "B.Mask")
       (net 43 "unconnected-(U1-Pad43)") (pinfunction "SWDIO") (pintype "bidirectional+no_connect") (tstamp 8fe3f01e-3e3a-461d-9627-0a61e3e5f786))
     (model "/home/mads/code/mcu/mico/KiCad-RP-Pico/RP-Pico Libraries/Pico.wrl"
-      (offset (xyz 0 0 0))
+      (offset (xyz 0 0 12))
       (scale (xyz 1 1 1))
       (rotate (xyz 0 0 0))
     )
