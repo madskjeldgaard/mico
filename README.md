@@ -22,7 +22,7 @@ Mico is a small, cheap (~10 euros total) and super precise 14 bit midi controlle
 | 1 | Raspberry Pi Pico rpi2040 | [474-DEV-17829](https://no.mouser.com/ProductDetail/SparkFun/DEV-17829?qs=sGAEpiMZZMv0NwlthflBi8NxDpSYKEiM3fbb2%2FVBX4k%3D) |
 | 8 | 0.01uF capacitor, 0603 | [80-C0603C103M5R7411](https://no.mouser.com/ProductDetail/KEMET/C0603C103M5RAC7411?qs=ACslrEyEXNOtANB4TBkCnQ%3D%3D) |
 | 16 | 10k resistors, 1%, 0603 | [603-RC0603FR-0710KL](https://no.mouser.com/ProductDetail/YAGEO/RC0603FR-0710KL?qs=sGAEpiMZZMtlubZbdhIBIAhzU1Tw%252BHVakiDuQ4Zki0U%3D) |
-| 4 | Detentless encoders | [652-PEC11R-4015K-N24](https://no.mouser.com/ProductDetail/652-PEC11R-4015K-N24) |
+| 4 | 15mm Detentless encoders | [652-PEC11R-4015K-N24](https://no.mouser.com/ProductDetail/652-PEC11R-4015K-N24)(knurled) / [PEC11R-4015F-N0024](https://no.mouser.com/ProductDetail/Bourns/PEC11R-4015F-N0024)(flat) |
 | 2 | Female header (to sandwich between the boards)| n/a |
 | 2 | Male header (to sandwich between the boards) | n/a |
 
