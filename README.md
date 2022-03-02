@@ -1,4 +1,4 @@
-# Mico - midi controller based on the Raspberry Pi Pico RPI2040
+# Mico - A tiny, cheap Raspberry Pi Pico midi controller
 
 ![3d render 1](assets/mico-3d.jpg) 
 ![3d render 2](assets/mico-3d-2.jpg) 
