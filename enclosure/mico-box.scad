@@ -42,30 +42,23 @@ in order to have the appropriate flexibility.
 // preview[view:north east, tilt:top diagonal]
 //----------------------- Box parameters ---------------------------
 
-USBCutX=5;
-USBCutY=18;
-USBCutZ=5.5;
-USBW=13;
-USBH=8;
-USBD=10;
-
 /* [Box options] */
 // - Wall thickness
-Thick = 2.0;
+Thick = 3;
 // - Panel thickness
-PanelThick = 2.0;
+PanelThick = 3;
 // - Font Thickness
 FontThick = 0.5;
 // - Filet Radius
 Filet = 0;
 // - 0 for beveled, 1 for rounded
-Round = 1; // [0:No, 1:Yes]
+Round = 0; // [0:No, 1:Yes]
 // - Printer margin around interior cutouts
-CutoutMargin = 0.4;
+CutoutMargin = 0.3;
 // - Margin between mating parts
-PartMargin = 0.2;
+PartMargin = 0.1;
 // - PCB feet? (x4)
-PCBFeet = 0; // [0:No, 1:Yes]
+PCBFeet = 1; // [0:No, 1:Yes]
 // - Decorations?
 Decorations = 0; // [0:No, 1:Yes]
 // - Decorations to ventilation holes
@@ -83,7 +76,7 @@ ScrewHole = 2.2606;
 // - Screw thread major diameter for outer shell
 BoxHole = 2.8448;
 // Thickness of fixation tabs
-TabThick = 1.5;
+TabThick = 2;
 // Back left tab
 BLTab = 1; // [0:Bottom, 1:Top]
 // Back right tab
@@ -97,27 +90,27 @@ SnapTabs = 1; // [0:Screws, 1:Snaps]
 
 /* [PCB options] */
 // - PCB Length
-PCBLength = 60.0;
+PCBLength = 58.5;
 // - PCB Width
-PCBWidth = 26;
+PCBWidth = 25;
 // - PCB Thickness
 PCBThick = 1.6;
 // You likely need to maintain |TabThick| margin on the left and right for tabs
 // and whatnot.
 // - Margin between front panel and PCB
-FrontEdgeMargin = 3;
+FrontEdgeMargin = 1;
 // - Margin between back panel and PCB
-BackEdgeMargin = 2;
+BackEdgeMargin = 1;
 // - Margin between left wall and PCB
-LeftEdgeMargin = 2;
+LeftEdgeMargin = 1;
 // - Margin between right wall and PCB
-RightEdgeMargin = 2;
+RightEdgeMargin = 1;
 // - Margin between top of PCB and box top.
-TopMargin = 27.5; // @TODO
+TopMargin = 30; // @TODO
 
 /* [PCB_Feet] */
 // - Foot height above box interior
-FootHeight = 0;
+FootHeight = 8;
 // - Foot diameter
 FootDia = 8;
 // - Hole diameter, or peg for screwless design
@@ -151,7 +144,7 @@ Foot4Y = PCBWidth - Foot4YFromEdge;
 
 /* [STL element to export] */
 // - Top shell
-TShell = 1; // [0:No, 1:Yes]
+TShell = 0; // [0:No, 1:Yes]
 // - Bottom shell
 BShell = 1; // [0:No, 1:Yes]
 // - Front panel
@@ -159,13 +152,13 @@ FPanL = 1; // [0:No, 1:Yes]
 // - Back panel
 BPanL = 1; // [0:No, 1:Yes]
 // - Panel holes and text
-PanelFeatures = 0; // [0:No, 1:Yes]
+PanelFeatures = 1; // [0:No, 1:Yes]
 
 /* [Hidden] */
 // - Shell color
-Couleur1 = "Pink";
+Couleur1 = "Orange";
 // - Panel color
-Couleur2 = "Green";
+Couleur2 = "OrangeRed";
 // - Text color
 TextColor = "White";
 // - making decorations thicker if it is a vent to make sure they go through
@@ -233,18 +226,6 @@ module FPanelHoles() {
     /* SquareHole(1, 20, 50, 80, 30, 3); */
     /* CylinderHole(1, 93, 30, 10); */
     /* SquareHole(1, 120, 20, 30, 60, 3); */
-}
-
-// If using both the top and pico, the scad compiler will complain of meshes not being closed. Settings this to true will show the full electronics but it should be false when compiling the final model.
-FullElectronics=false;
-module Electronics(){
-	// Electronics
-	translate([-57.75,-120,22])rotate([0,0,90])
-		if(FullElectronics){
-			import("mico-all-electronics.stl", center=true);
-		} else {
-			import("mico-top-electronics.stl", center=true);
-		}
 }
 
 // Text for front panel
@@ -391,12 +372,12 @@ module Decorations() {
 */
 module Coque() {
     color(Couleur1) {
-        /* difference() { */
+        difference() {
             MainBox();
-        /*     if (Decorations) { */
-        /*         Decorations(); */
-        /*     } */
-        /* } */
+            if (Decorations) {
+                Decorations();
+            }
+        }
     }
 }
 
@@ -865,10 +846,7 @@ module BPanL() {
 
 // Top shell
 if (TShell) {
-	difference(){
-		TopShell();
-		#Electronics();
-	}
+    TopShell();
 }
 
 // Bottom shell
@@ -878,22 +856,10 @@ if (BShell) {
 
 // Front panel
 if (FPanL) {
-	difference(){
-		FPanL();
-		Electronics();
-	}
+    FPanL();
 }
 
 // Back panel
-difference(){
-	if (BPanL) {
-		BPanL();
-		/* difference(){ */
-		/* 	Electronics(); */
-		/* } */
-
-	}
-
-color("Blue") translate([USBCutX,USBCutY,USBCutZ])cube([USBD,USBW,USBH],center=true);
-
+if (BPanL) {
+    BPanL();
 }
