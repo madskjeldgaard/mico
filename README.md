@@ -1,5 +1,9 @@
 # Mico - midi controller based on the Raspberry Pi Pico RPI2040
 
+![3d render 1](assets/mico-3d.jpg) 
+![3d render 2](assets/mico-3d-2.jpg) 
+![Enclosure](assets/mico-enclosure.png) 
+
 Mico is a small, cheap (~10 euros total) and super precise 14 bit midi controller based on the [Raspberry Pi Pico board](https://www.raspberrypi.com/products/raspberry-pi-pico/).
 
 ## Features
