@@ -23,6 +23,8 @@ Mico is a small, cheap (~10 euros total) and super precise 14 bit midi controlle
 | 8 | 0.01uF capacitor, 0603 | [80-C0603C103M5R7411](https://no.mouser.com/ProductDetail/KEMET/C0603C103M5RAC7411?qs=ACslrEyEXNOtANB4TBkCnQ%3D%3D) |
 | 16 | 10k resistors, 1%, 0603 | [603-RC0603FR-0710KL](https://no.mouser.com/ProductDetail/YAGEO/RC0603FR-0710KL?qs=sGAEpiMZZMtlubZbdhIBIAhzU1Tw%252BHVakiDuQ4Zki0U%3D) |
 | 4 | Detentless encoders | [652-PEC11R-4015K-N24](https://no.mouser.com/ProductDetail/652-PEC11R-4015K-N24) |
+| 2 | Female header (to sandwich between the boards)| n/a |
+| 2 | Male header (to sandwich between the boards) | n/a |
 
 
 ## Uploading the firmware
