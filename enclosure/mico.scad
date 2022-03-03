@@ -44,35 +44,35 @@ in order to have the appropriate flexibility.
 
 USBCutX=5;
 USBCutY=18;
-USBCutZ=6.8;
+USBCutZ=8;
 USBW=13;
 USBH=10;
 USBD=10;
 
 // TODO: This is kind of guesswork
 BUTTONX=21.5;
-BUTTONY=20;
+BUTTONY=23;
 BUTTONZ=-3;
 
-BUTTONW=6;
+BUTTONW=5;
 BUTTONH=25;
 BUTTOND=6;
 
 /* [Box options] */
 // - Wall thickness
-Thick = 2.0;
+Thick = 1.0;
 // - Panel thickness
-PanelThick = 2.0;
+PanelThick = 1.0;
 // - Font Thickness
 FontThick = 0.5;
 // - Filet Radius
-Filet = 0;
+Filet = 2;
 // - 0 for beveled, 1 for rounded
-Round = 1; // [0:No, 1:Yes]
+Round = 0; // [0:No, 1:Yes]
 // - Printer margin around interior cutouts
-CutoutMargin = 0.4;
+CutoutMargin = 0.2;
 // - Margin between mating parts
-PartMargin = 0.2;
+PartMargin = 0.05;
 // - PCB feet? (x4)
 PCBFeet = 0; // [0:No, 1:Yes]
 // - Decorations?
@@ -80,7 +80,7 @@ Decorations = 0; // [0:No, 1:Yes]
 // - Decorations to ventilation holes
 Vent = 0; // [0:No, 1:Yes]
 // - Decoration-Holes width (in mm)
-Vent_width = 1.5;
+Vent_width = 0.5;
 // - Tolerance (Panel/rails gap on one edge)
 PanelThickGap = CutoutMargin + PartMargin;
 PanelVerticalGap = PartMargin;
