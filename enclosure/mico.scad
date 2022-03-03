@@ -44,10 +44,19 @@ in order to have the appropriate flexibility.
 
 USBCutX=5;
 USBCutY=18;
-USBCutZ=5.5;
+USBCutZ=6.8;
 USBW=13;
-USBH=8;
+USBH=10;
 USBD=10;
+
+// TODO: This is kind of guesswork
+BUTTONX=21.5;
+BUTTONY=20;
+BUTTONZ=-3;
+
+BUTTONW=6;
+BUTTONH=25;
+BUTTOND=6;
 
 /* [Box options] */
 // - Wall thickness
@@ -149,16 +158,14 @@ Foot4X = PCBLength - Foot4XFromEdge;
 Foot4YFromEdge = 5;
 Foot4Y = PCBWidth - Foot4YFromEdge;
 
+TShell = 1;
+BShell = 1;
+FPanL = 1;
+BPanL = 1;
 /* [STL element to export] */
 // - Top shell
-TShell = 1; // [0:No, 1:Yes]
-// - Bottom shell
-BShell = 1; // [0:No, 1:Yes]
-// - Front panel
-FPanL = 1; // [0:No, 1:Yes]
-// - Back panel
-BPanL = 1; // [0:No, 1:Yes]
-// - Panel holes and text
+Solo = 0; // 0 = not solo, 1 = top, 2 = bottom, 3 = front, 4 = back
+
 PanelFeatures = 0; // [0:No, 1:Yes]
 
 /* [Hidden] */
@@ -239,7 +246,7 @@ module FPanelHoles() {
 FullElectronics=false;
 module Electronics(){
 	// Electronics
-	translate([-57.75,-120,22])rotate([0,0,90])
+	translate([-57.75,-120,22.8])rotate([0,0,90])
 		if(FullElectronics){
 			import("mico-all-electronics.stl", center=true);
 		} else {
@@ -862,38 +869,73 @@ module BPanL() {
         }
     }
 }
+module Top(){
+	// Top shell
+	if (TShell) {
+		difference(){
+			TopShell();
+#Electronics();
+		}
+	}
 
-// Top shell
-if (TShell) {
+}
+
+module ButtonCutout(){
+	color("Yellow") translate([BUTTONX,BUTTONY,BUTTONZ])cylinder(h=BUTTONH,d=BUTTONW,center=true);
+}
+
+module Bottom(){
+	// Bottom shell
 	difference(){
-		TopShell();
-		#Electronics();
+		if (BShell) {
+			BottomShell();
+		}
+		ButtonCutout();
 	}
 }
 
-// Bottom shell
-if (BShell) {
-    BottomShell();
-}
+module FrontPanel(){
+	DEBUGX=-9;
+	DEBUGY=18;
+	DEBUGZ=90;
+	DEBUGD=5;
+	DEBUGH=50;
 
-// Front panel
-if (FPanL) {
-	difference(){
-		FPanL();
-		Electronics();
+	module DebugCut(){
+		color("Green") rotate([0,90,0])translate([DEBUGX, DEBUGY, DEBUGZ])cylinder(h=DEBUGH,d=DEBUGD,center=true);
 	}
-}
 
-// Back panel
+	// Front panel
+
+	difference(){
+		if (FPanL) {
+			FPanL();
+		}
+
+		DebugCut();
+	}
+
+}
+module BackPanel(){
 difference(){
 	if (BPanL) {
 		BPanL();
-		/* difference(){ */
-		/* 	Electronics(); */
-		/* } */
-
 	}
-
 color("Blue") translate([USBCutX,USBCutY,USBCutZ])cube([USBD,USBW,USBH],center=true);
 
+}
+
+}if(Solo == 1){
+	Top();
+	} else if ( Solo == 2){
+	Bottom();
+} else if (Solo == 3){
+	FrontPanel();
+} else if (Solo == 4){
+	BackPanel();
+} else {
+	Top();
+	Bottom();
+	FrontPanel();
+	BackPanel();
 }
