@@ -4,6 +4,16 @@
 #include "velocity.hpp"
 
 namespace mico {
+
+enum Channel {
+  NORMAL,
+  INVERTED,
+  VELOCITY,
+  VELOCITYTRIG,
+  // SINE, //TODO: Make wavetable
+  // EXP, //TODO: Make wavetable
+};
+
 // Wraps around an encoder and it's values and helper functions
 class MicoVoice {
 public:
@@ -17,7 +27,8 @@ public:
     velocity.init();
   }
 
-  // Get encoder value, warp it and add velocity before sending it as 14 bit midi
+  // Get encoder value, warp it and add velocity before sending it as 14 bit
+  // midi
   void update14() {
     count = enc.get_count();
     if (count != old_count) {
@@ -29,13 +40,36 @@ public:
       printf("Enc on pin %d and %d: ", pinA, pinB);
       printf("%d\n", val);
       printf("Sending to chan %d midicc %d\n\n", chan, ccnum);
-      send_cc14(chan, val, ccnum);
+      send_all(chan, val, ccnum);
 
       old_count = count;
     };
   }
 
 private:
+  // Send all midi cc data and derivatives
+  void send_all(int firstchan, int midi14val, int ccnum) {
+
+    // Normal
+    send_cc14(firstchan + Channel::NORMAL, midi14val, ccnum);
+
+    // Inverted
+    send_cc14(firstchan + Channel::INVERTED, maxValue14Bit - midi14val, ccnum);
+
+    // Velocity
+    constexpr auto velocity14step = maxValue14Bit / velocity.num_speed_levels;
+    const auto velocityval = velocity.speed_level * velocity14step;
+    send_cc14(firstchan + Channel::VELOCITY, velocityval,
+              ccnum);
+
+    // Velocity trigger
+	// TODO: Make it work
+    // TODO: Turn into a note on/off message
+	// TODO: Remove magic number (3)
+    // const auto veltrigval = (velocity.speed_level > 3) ? maxValue14Bit : 0;
+    // send_cc14(firstchan + Channel::VELOCITYTRIG, veltrigval, ccnum);
+  }
+
   ClipMode clipmode;
   uint32_t count{0}, old_count{0}, val{0};
   uint8_t pinA, pinB, ccnum, chan;

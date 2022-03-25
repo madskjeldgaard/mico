@@ -10,6 +10,7 @@
 
 #include "tusb.h"
 #include <stdio.h>
+#include <math.h>
 #include <stdlib.h> /* abs */
 
 namespace mico {
@@ -23,7 +24,7 @@ typedef struct {
   uint8_t byte3;
 } midiEventPacket_t;
 
-constexpr auto maxValue14Bit = 16383;
+constexpr auto maxValue14Bit = pow(2, 14);
 
 enum class ClipMode { WRAP, CLAMP };
 
