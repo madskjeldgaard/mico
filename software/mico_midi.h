@@ -92,6 +92,28 @@ void send_cc(uint8_t channel, uint8_t value, uint8_t ccnum,
   tud_midi_stream_write(cable_num, ccbuffer, buffer_size);
 }
 
+void send_noteon(uint8_t channel, uint8_t velocity, uint8_t note,
+             uint8_t cable_num = 0) {
+  const auto eventType = 0x90;
+  ccbuffer[0] = eventType;
+  ccbuffer[1] = static_cast<uint8_t>(eventType | channel);
+  ccbuffer[2] = note;
+  ccbuffer[3] = velocity;
+
+  tud_midi_stream_write(cable_num, ccbuffer, buffer_size);
+}
+
+void send_noteoff(uint8_t channel, uint8_t note,
+             uint8_t cable_num = 0) {
+  const auto eventType = 0x80;
+  ccbuffer[0] = eventType;
+  ccbuffer[1] = static_cast<uint8_t>(eventType | channel);
+  ccbuffer[2] = note;
+  ccbuffer[3] = 0;
+
+  tud_midi_stream_write(cable_num, ccbuffer, buffer_size);
+}
+
 // Send a 14 bit midi message.
 // CC numbers are ccnum for lower bit and ccnum+32 for higher bit.
 void send_cc14(uint8_t channel, uint16_t value, uint8_t ccnum,

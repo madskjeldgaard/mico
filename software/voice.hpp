@@ -64,10 +64,20 @@ private:
 
     // Velocity trigger
 	// TODO: Make it work
-    // TODO: Turn into a note on/off message
 	// TODO: Remove magic number (3)
-    // const auto veltrigval = (velocity.speed_level > 3) ? maxValue14Bit : 0;
-    // send_cc14(firstchan + Channel::VELOCITYTRIG, veltrigval, ccnum);
+	const auto newTrig = velocity.speed_level > 2;
+	if(newTrig != oldTrig) {
+	  const auto note = 47 + ccnum;
+	  if(newTrig == true){
+		// noteon
+		send_noteon(firstchan + Channel::VELOCITYTRIG, velocityval, note);
+	  } else {
+		// noteoff
+		send_noteoff(firstchan + Channel::VELOCITYTRIG, note);
+	  }
+
+	  oldTrig = newTrig;
+	}
   }
 
   ClipMode clipmode;
@@ -75,5 +85,7 @@ private:
   uint8_t pinA, pinB, ccnum, chan;
   GPIOEncoder enc;
   Velocity velocity;
+
+  bool oldTrig{false};
 };
 } // namespace mico

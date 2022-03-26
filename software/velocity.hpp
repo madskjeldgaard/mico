@@ -57,11 +57,11 @@ private:
   }
 
   uint32_t get_delta_value14(uint32_t time_delta) {
-	constexpr auto ultrafast = 5000;
+	constexpr auto ultrafast = 5500;
 	constexpr auto superfast = 10000;
 	constexpr auto fast = 20000;
-	constexpr auto mediumfast = 30000;
-	constexpr auto medium = 50000;
+	constexpr auto mediumfast = 50000;
+	constexpr auto medium = 75000;
 	constexpr auto lowspeed = 100000;
 
 	if (time_delta < superfast && time_delta > 0) {
