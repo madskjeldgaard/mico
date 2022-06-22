@@ -49,6 +49,11 @@ Debug:
 openocd -f interface/picoprobe.cfg -f target/rp2040.cfg -s tcl
 ```
 
+## Usage
+
+### SuperCollider
+
+There is an easy to use interface for this controller [here](https://github.com/madskjeldgaard/mico-sc).
 
 ## License
 
