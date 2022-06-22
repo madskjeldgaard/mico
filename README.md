@@ -49,6 +49,13 @@ Debug:
 openocd -f interface/picoprobe.cfg -f target/rp2040.cfg -s tcl
 ```
 
+
+## License
+
+This work is shared under the *Attribution-NonCommercial-ShareAlike 4.0 International* license.
+
+If you have questions about that, send me an email **mail at madskjeldgaard.dk**
+
 ## Credits
 
 These projects were a big help and inspiration in making this:
