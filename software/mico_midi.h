@@ -24,7 +24,7 @@ typedef struct {
   uint8_t byte3;
 } midiEventPacket_t;
 
-constexpr auto maxValue14Bit = pow(2, 14);
+constexpr auto maxValue14Bit = pow(2, 14) - 1;
 
 enum class ClipMode { WRAP, CLAMP };
 
@@ -32,7 +32,7 @@ enum class ClipMode { WRAP, CLAMP };
 inline int clamp14(int inVal) {
   if (inVal < 0) {
     return 0;
-  } else if (inVal > maxValue14Bit) {
+  } else if (inVal >= maxValue14Bit) {
     return maxValue14Bit;
   } else {
     return inVal;

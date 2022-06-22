@@ -35,6 +35,12 @@ MicoVoice voices[numEncoders]{
   MicoVoice(6, 7, 17, channel, clipmode),
 };
 
+void changeClipmodes(ClipMode newMode){
+  for (size_t i = 0; i < numEncoders; i++) {
+	voices[i].setClipMode(newMode);
+  }
+}
+
 pico_arduino::TimerAlarmRepeating miditimer;
 
 // UART defines
@@ -108,17 +114,18 @@ void button_task() {
 
     // Toggle
     if (buttonState == 1) {
-      switch (clipmode) {
-      case ClipMode::CLAMP:
-        clipmode = ClipMode::WRAP;
-        gpio_put(LED_PIN, 0);
-        break;
-      case ClipMode::WRAP:
-        clipmode = ClipMode::CLAMP;
-        gpio_put(LED_PIN, 1);
-        break;
-      }
+	  switch (clipmode) {
+		case ClipMode::CLAMP:
+		  clipmode = ClipMode::WRAP;
+		  gpio_put(LED_PIN, 0);
+		  break;
+		case ClipMode::WRAP:
+		  clipmode = ClipMode::CLAMP;
+		  gpio_put(LED_PIN, 1);
+		  break;
+	  }
 
+	  changeClipmodes(clipmode);
       printf("Changed clipmode to: %d\n", clipmode);
     }
   }

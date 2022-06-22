@@ -28,6 +28,10 @@ public:
     velocity.init();
   }
 
+  void setClipMode(ClipMode newMode){
+	clipmode = newMode;
+  }
+
   // Get encoder value, warp it and add velocity before sending it as 14 bit
   // midi
   void update14() {
