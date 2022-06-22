@@ -26,10 +26,10 @@ bool buttonState;
 
 // A voice is an encoder with midi sender, encoder class, velocity etc.
 MicoVoice voices[numEncoders]{
-  MicoVoice(4, 5, 1, channel, clipmode),
-  MicoVoice(2, 3, 2, channel, clipmode),
-  MicoVoice(8, 9, 3, channel, clipmode),
-  MicoVoice(6, 7, 4, channel, clipmode),
+  MicoVoice(4, 5, 14, channel, clipmode),
+  MicoVoice(2, 3, 15, channel, clipmode),
+  MicoVoice(8, 9, 16, channel, clipmode),
+  MicoVoice(6, 7, 17, channel, clipmode),
 };
 
 pico_arduino::TimerAlarmRepeating miditimer;
