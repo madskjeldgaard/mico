@@ -15,6 +15,9 @@
 #include "timeralarm.hpp"
 #include <stdio.h>
 
+// Change this to true to enable parallel channel mode
+#define PARALLEL_CHANNELS false
+
 using namespace pimoroni;
 using namespace mico;
 

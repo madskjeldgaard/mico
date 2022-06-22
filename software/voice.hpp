@@ -5,6 +5,7 @@
 
 namespace mico {
 
+// Only used in parallel mode
 enum Channel {
   NORMAL,
   INVERTED,
@@ -53,6 +54,7 @@ private:
     // Normal
     send_cc14(firstchan + Channel::NORMAL, midi14val, ccnum);
 
+#if PARALLEL_CHANNELS
     // Inverted
     send_cc14(firstchan + Channel::INVERTED, maxValue14Bit - midi14val, ccnum);
 
@@ -78,6 +80,7 @@ private:
 
 	  oldTrig = newTrig;
 	}
+#endif
   }
 
   ClipMode clipmode;
