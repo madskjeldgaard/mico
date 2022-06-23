@@ -14,6 +14,10 @@ Mico is a small, cheap (~10 euros total) and super precise 14 bit midi controlle
 - 14 bit midi (as well as regular 7 bit midi)
 - Cheap as chips and open sourced
 
+## DEMO
+
+There's a [demo here](https://vimeo.com/723291413).
+
 ## BOM
 
 | Quantity | Part | Mouser Number |
