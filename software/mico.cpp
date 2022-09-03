@@ -153,7 +153,7 @@ inline void setup() {
   gpio_put(LED_PIN, 0);
 
   printf("Starting midi timer\n");
-  miditimer.start(loopTask, 10);
+  miditimer.start(loopTask, 1);
 }
 int main() {
   printf("Starting Mico main loop.\n");
